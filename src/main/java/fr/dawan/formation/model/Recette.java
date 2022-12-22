@@ -90,4 +90,8 @@ public class Recette implements Serializable {
         this.numberOfPeople = numberOfPeople;
     }
 
+    public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
+        this.recettesIngredients.add(recetteIngredient);
+    }
+
 }

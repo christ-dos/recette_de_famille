@@ -3,10 +3,10 @@ package fr.dawan.formation.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.dawan.formation.model.Categorie;
+import fr.dawan.formation.model.Recette;
 
 /**
- * Interface de gestion de requêteage de l'objet {@link Categorie}
+ * Interface de gestion de requêteage de l'objet {@link Recette}
  * 
  * @author Kelly Ribeiro
  * @author Amandine Pesquet
@@ -14,6 +14,6 @@ import fr.dawan.formation.model.Categorie;
  *
  */
 @Repository
-public interface CategorieRepository extends CrudRepository<Categorie, Integer> {
+public interface RecetteRepositery extends CrudRepository<Recette, Integer> {
 
 }

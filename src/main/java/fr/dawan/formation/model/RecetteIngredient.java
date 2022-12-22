@@ -7,6 +7,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@Table(name = "recette_ingredients")
 public class RecetteIngredient implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +47,7 @@ public class RecetteIngredient implements Serializable {
 //    @Id
 //    @Column(name = "ingredient_id")
 //    private int ingredientId;
-//    private int quantité;
+    private int quantité;
 
     @EmbeddedId
     private RecetteIngredientId id;
