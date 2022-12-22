@@ -30,6 +30,8 @@ import lombok.ToString;
 @IdClass(RecetteIngredientId.class)
 public class RecetteIngredient implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Clé composite qui fait la jointure avec {@link Recette}
      */

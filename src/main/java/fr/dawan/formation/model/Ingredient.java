@@ -31,9 +31,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "ingredients")
 public class Ingredient implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 
     @Version
