@@ -1,11 +1,12 @@
 package fr.dawan.formation.model;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * Classe qui configure les clés composites de l'entité RecetteIngredient
@@ -14,12 +15,16 @@ import java.io.Serializable;
  * @author Amandine Pesquet
  * @author Christine Dos Santos
  *
-        */
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Embeddable
 public class RecetteIngredientId implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int recetteId;
 
     private int ingredientId;
