@@ -1,12 +1,14 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
@@ -41,5 +43,8 @@ public class Categorie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private CategorieEnum name;
+
+    @OneToMany(mappedBy = "categorie")
+    private List<Recette> recettes;
 
 }

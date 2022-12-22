@@ -1,12 +1,14 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
@@ -43,5 +45,8 @@ public class Ingredient implements Serializable {
     private String name;
     @Column(name = "url_picture")
     private String urlPicture;
+
+    @OneToMany(mappedBy = "ingredient")
+    private List<RecetteIngredient> recettesIngredients;
 
 }

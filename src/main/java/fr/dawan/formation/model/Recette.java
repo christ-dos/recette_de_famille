@@ -1,12 +1,15 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
@@ -66,6 +69,12 @@ public class Recette implements Serializable {
 
     @Column(name = "number_of_people")
     private String numberOfPeople;
+
+    @ManyToOne
+    private Categorie categorie;
+
+    @OneToMany(mappedBy = "recette")
+    private List<RecetteIngredient> recettesIngredients;
 
     public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
             String cookingTime, String restTime, String stepPreparation, String difficultyLevel,
