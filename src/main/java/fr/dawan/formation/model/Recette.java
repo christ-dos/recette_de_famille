@@ -1,6 +1,7 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -91,7 +92,13 @@ public class Recette implements Serializable {
     }
 
     public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
-        this.recettesIngredients.add(recetteIngredient);
+        if (this.recettesIngredients == null) {
+            this.recettesIngredients = new ArrayList<>();
+        } else {
+            this.recettesIngredients.add(recetteIngredient);
+            System.out.println(recettesIngredients);
+        }
+
     }
 
 }

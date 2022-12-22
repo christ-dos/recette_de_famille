@@ -1,5 +1,6 @@
 package fr.dawan.formation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
+import fr.dawan.formation.service.RecetteService;
 
 @SpringBootApplication
 public class RecetteEnFamille1Application implements CommandLineRunner {
+    @Autowired
+    private RecetteService recetteService;
 
     public static void main(String[] args) {
         SpringApplication.run(RecetteEnFamille1Application.class, args);
@@ -31,7 +35,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recetteIngredient.setIngredient(poulet);
         recetteIngredient.setQuantité(1);
         recetteIngredient.setUniteMesure("pièce");
+        System.out.println("**************************" + recetteIngredient);
         recette.ajouterRecetteIngredient(recetteIngredient);
+        recetteService.saveRecette(recette);
 
     }
 
