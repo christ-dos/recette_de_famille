@@ -35,24 +35,15 @@ public class RecetteIngredient implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Clé composite qui fait la jointure avec {@link Recette}
+     * Clé composite qui fait la jointure entre {@link Recette} et
+     * {@link Ingredient}
      */
-//    @Id
-//    @Column(name = "recette_id")
-//    private int recetteId;
-
-    /**
-     * Clé composite qui fait la jointure avec {@link Ingredient}
-     */
-//    @Id
-//    @Column(name = "ingredient_id")
-//    private int ingredientId;
-    private int quantité;
-
     @EmbeddedId
     private RecetteIngredientId id;
 
-    @Column(name = "unite_mesure")
+    private int quantité;
+
+    @Column(name = "unite_mesure", length = 5, nullable = false)
     private String uniteMesure;
 
     @ManyToOne

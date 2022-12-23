@@ -40,10 +40,13 @@ public class Ingredient implements Serializable {
     int version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private int id;
 
+    @Column(length = 100)
     private String name;
-    @Column(name = "url_picture")
+
+    @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
     @OneToMany(mappedBy = "ingredient")

@@ -43,32 +43,33 @@ public class Recette implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 10)
     private int id;
-
+    @Column(length = 255)
     private String title;
 
-    @Column(name = "url_picture")
+    @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
-    @Column(name = "total_time_preparation")
+    @Column(name = "total_time_preparation", length = 10)
     private String totalTimePreparation;
 
-    @Column(name = "time_preparation")
+    @Column(name = "time_preparation", length = 10)
     private String timePreparation;
 
-    @Column(name = "cooking_time")
+    @Column(name = "cooking_time", length = 10)
     private String cookingTime;
 
-    @Column(name = "rest_time")
+    @Column(name = "rest_time", length = 10)
     private String restTime;
 
-    @Column(name = "step_preparation")
+    @Column(name = "step_preparation", length = 1024)
     private String stepPreparation;
 
-    @Column(name = "difficulty_level")
+    @Column(name = "difficulty_level", length = 150)
     private String difficultyLevel;
 
-    @Column(name = "number_of_people")
+    @Column(name = "number_of_people", length = 2)
     private String numberOfPeople;
 
     @ManyToOne
