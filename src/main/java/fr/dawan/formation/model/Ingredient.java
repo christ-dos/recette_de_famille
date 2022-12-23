@@ -43,7 +43,7 @@ public class Ingredient implements Serializable {
     @Column(length = 10)
     private int id;
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String name;
 
     @Column(name = "url_picture", length = 255)

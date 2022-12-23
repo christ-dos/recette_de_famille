@@ -48,7 +48,7 @@ public class Categorie implements Serializable {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 15)
+    @Column(length = 15, nullable = false)
     private CategorieEnum name;
 
     @OneToMany(mappedBy = "categorie")

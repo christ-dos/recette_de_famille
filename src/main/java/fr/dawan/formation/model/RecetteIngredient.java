@@ -41,7 +41,8 @@ public class RecetteIngredient implements Serializable {
     @EmbeddedId
     private RecetteIngredientId id;
 
-    private int quantité;
+    @Column(nullable = false)
+    private int quantite;
 
     @Column(name = "unite_mesure", length = 5, nullable = false)
     private String uniteMesure;

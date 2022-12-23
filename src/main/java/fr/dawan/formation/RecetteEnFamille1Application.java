@@ -25,6 +25,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
         Recette recette = new Recette();
         recette.setTitle("poulet basquaise");
+        recette.setStepPreparation("lorem bla bla bla");
         Ingredient poulet = new Ingredient();
         Ingredient poivron = new Ingredient();
         poulet.setName("poulet");
@@ -33,8 +34,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         RecetteIngredient recetteIngredient = new RecetteIngredient();
         recetteIngredient.setRecette(recette);
         recetteIngredient.setIngredient(poulet);
-        recetteIngredient.setQuantité(1);
+        recetteIngredient.setQuantite(1);
         recetteIngredient.setUniteMesure("pièce");
+
         System.out.println("**************************" + recetteIngredient);
         recette.ajouterRecetteIngredient(recetteIngredient);
         recetteService.saveRecette(recette);

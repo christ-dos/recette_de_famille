@@ -45,7 +45,8 @@ public class Recette implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 10)
     private int id;
-    @Column(length = 255)
+
+    @Column(length = 255, nullable = false)
     private String title;
 
     @Column(name = "url_picture", length = 255)
@@ -63,7 +64,7 @@ public class Recette implements Serializable {
     @Column(name = "rest_time", length = 10)
     private String restTime;
 
-    @Column(name = "step_preparation", length = 1024)
+    @Column(name = "step_preparation", length = 1024, nullable = false)
     private String stepPreparation;
 
     @Column(name = "difficulty_level", length = 150)
