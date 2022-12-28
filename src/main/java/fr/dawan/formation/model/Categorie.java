@@ -1,9 +1,11 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,14 +46,22 @@ public class Categorie implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 10)
+    @Column(precision = 10)
     private int id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private CategorieEnum name;
 
-    @OneToMany(mappedBy = "categorie")
+    // A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
     private List<Recette> recettes;
+
+    public void addRecette(Recette recette) {
+        if (this.recettes == null) {
+            this.recettes = new ArrayList<>();
+        }
+        this.recettes.add(recette);
+    }
 
 }

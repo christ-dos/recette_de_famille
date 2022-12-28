@@ -2,9 +2,13 @@ package fr.dawan.formation.model;
 
 import java.io.Serializable;
 
+import fr.dawan.formation.enumeration.UniteMesureEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
@@ -29,7 +33,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@Table(name = "recette_ingredients")
+@Table(name = "recettes_ingredients")
 public class RecetteIngredient implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,19 +43,26 @@ public class RecetteIngredient implements Serializable {
      * {@link Ingredient}
      */
     @EmbeddedId
-    private RecetteIngredientId id;
+    private RecetteIngredientId id = new RecetteIngredientId();
 
     @Column(nullable = false)
     private int quantite;
 
-    @Column(name = "unite_mesure", length = 5, nullable = false)
-    private String uniteMesure;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unite_mesure", length = 30, nullable = false)
+    private UniteMesureEnum uniteMesure;
 
-    @ManyToOne
+//    @Column(name = "unite_mesure", length = 5, nullable = false)
+//    private String uniteMesure;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @MapsId("ingredientId")
     private Ingredient ingredient;
 
-    @ManyToOne
+    // A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
+    // contiennent
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("recetteId")
     private Recette recette;
+
 }

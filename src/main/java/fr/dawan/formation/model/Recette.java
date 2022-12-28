@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,7 +56,7 @@ public class Recette implements Serializable {
     @Column(name = "total_time_preparation", length = 10)
     private String totalTimePreparation;
 
-    @Column(name = "time_preparation", length = 10)
+    @Column(name = "time_preparation", length = 10, nullable = false)
     private String timePreparation;
 
     @Column(name = "cooking_time", length = 10)
@@ -73,10 +74,11 @@ public class Recette implements Serializable {
     @Column(name = "number_of_people", length = 2)
     private String numberOfPeople;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette")
+    @OneToMany(mappedBy = "recette", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH })
     private List<RecetteIngredient> recettesIngredients;
 
     public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
@@ -96,10 +98,8 @@ public class Recette implements Serializable {
     public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
         if (this.recettesIngredients == null) {
             this.recettesIngredients = new ArrayList<>();
-        } else {
-            this.recettesIngredients.add(recetteIngredient);
-            System.out.println(recettesIngredients);
         }
+        this.recettesIngredients.add(recetteIngredient);
 
     }
 

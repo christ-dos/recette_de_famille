@@ -1,8 +1,10 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +42,7 @@ public class Ingredient implements Serializable {
     int version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 10)
+    @Column(precision = 10)
     private int id;
 
     @Column(length = 100, nullable = false)
@@ -49,7 +51,14 @@ public class Ingredient implements Serializable {
     @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient")
+    @OneToMany(mappedBy = "ingredient", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<RecetteIngredient> recettesIngredients;
+
+    public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
+        if (this.recettesIngredients == null) {
+            this.recettesIngredients = new ArrayList<>();
+        }
+        this.recettesIngredients.add(recetteIngredient);
+    }
 
 }
