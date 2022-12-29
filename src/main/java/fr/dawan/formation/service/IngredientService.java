@@ -10,10 +10,12 @@ import fr.dawan.formation.exception.IngredientNotFoundException;
 import fr.dawan.formation.interfaces.IIngredientService;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.repository.IngredientRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class IngredientService implements IIngredientService {
 
     private IngredientRepository ingredientRepository;

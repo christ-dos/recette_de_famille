@@ -12,11 +12,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Classe qui décrit une table association entre {@link Recette} et
@@ -32,11 +32,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 @Table(name = "recettes_ingredients")
 public class RecetteIngredient implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Version
+    int version;
 
     /**
      * Clé composite qui fait la jointure entre {@link Recette} et
@@ -59,10 +61,18 @@ public class RecetteIngredient implements Serializable {
     @MapsId("ingredientId")
     private Ingredient ingredient;
 
-    // A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
-    // contiennent
+    /**
+     * A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
+     * contiennent
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("recetteId")
     private Recette recette;
+
+    @Override
+    public String toString() {
+        return "RecetteIngredient [id=" + id + ", quantite=" + quantite + ", uniteMesure=" + uniteMesure
+                + ", ingredient=" + ingredient + ", recette=" + recette + "]";
+    }
 
 }

@@ -10,10 +10,12 @@ import fr.dawan.formation.exception.RecetteNotFoundException;
 import fr.dawan.formation.interfaces.IRecetteService;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.repository.RecetteRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class RecetteService implements IRecetteService {
 
     private RecetteRepository recetteRepository;
@@ -41,9 +43,10 @@ public class RecetteService implements IRecetteService {
     }
 
     @Override
-    public void saveRecette(Recette recette) {
+    public Recette saveRecette(Recette recette) {
         Recette recetteEnregistre = recetteRepository.save(recette);
         log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
+        return recetteEnregistre;
     }
 
     @Override

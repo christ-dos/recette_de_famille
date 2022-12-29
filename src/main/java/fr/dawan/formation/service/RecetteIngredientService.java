@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteIngredientRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class RecetteIngredientService {
 
     private RecetteIngredientRepository recetteIngredientRepository;

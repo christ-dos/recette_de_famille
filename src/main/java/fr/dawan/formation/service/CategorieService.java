@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import fr.dawan.formation.interfaces.ICategorieService;
 import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.repository.CategorieRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class CategorieService implements ICategorieService {
     private CategorieRepository categorieRepository;
 

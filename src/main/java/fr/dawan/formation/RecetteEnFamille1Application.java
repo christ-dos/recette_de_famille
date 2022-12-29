@@ -1,5 +1,7 @@
 package fr.dawan.formation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -75,6 +77,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
         // recetteService.deleteRecette(1);
+
+        List<Recette> recettes = recetteService.findAll();
+        System.out.println(recettes);
 
     }
 

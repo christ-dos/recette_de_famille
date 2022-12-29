@@ -20,7 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Classe qui décrit un objet de type {@link Categorie}
@@ -34,7 +33,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "categories")
 public class Categorie implements Serializable {
@@ -53,7 +51,9 @@ public class Categorie implements Serializable {
     @Column(length = 15, nullable = false)
     private CategorieEnum name;
 
-    // A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
+    /**
+     * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
+     */
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
     private List<Recette> recettes;
 
@@ -62,6 +62,11 @@ public class Categorie implements Serializable {
             this.recettes = new ArrayList<>();
         }
         this.recettes.add(recette);
+    }
+
+    @Override
+    public String toString() {
+        return "Categorie [id=" + id + ", name=" + name + "]";
     }
 
 }

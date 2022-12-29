@@ -10,7 +10,7 @@ public interface IRecetteService {
 
     Recette findById(int id);
 
-    void saveRecette(Recette recette);
+    Recette saveRecette(Recette recette);
 
     Recette updateRecette(Recette recette);
 

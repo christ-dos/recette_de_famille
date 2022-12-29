@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Classe qui décrit un objet de type {@link Ingredient}
@@ -32,7 +31,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Table(name = "ingredients")
 public class Ingredient implements Serializable {
 
@@ -59,6 +57,11 @@ public class Ingredient implements Serializable {
             this.recettesIngredients = new ArrayList<>();
         }
         this.recettesIngredients.add(recetteIngredient);
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient [id=" + id + ", name=" + name + ", urlPicture=" + urlPicture + "]";
     }
 
 }
