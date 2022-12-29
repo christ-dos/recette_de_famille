@@ -7,28 +7,28 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.enumeration.UniteMesureEnum;
+import fr.dawan.formation.interfaces.ICategorieService;
+import fr.dawan.formation.interfaces.IIngredientService;
+import fr.dawan.formation.interfaces.IRecetteService;
 import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
-import fr.dawan.formation.service.CategorieService;
-import fr.dawan.formation.service.IngredientService;
 import fr.dawan.formation.service.RecetteIngredientService;
-import fr.dawan.formation.service.RecetteService;
 
 @SpringBootApplication
 public class RecetteEnFamille1Application implements CommandLineRunner {
     @Autowired
-    private RecetteService recetteService;
+    private IRecetteService recetteService;
 
     @Autowired
-    private CategorieService categorieService;
+    private ICategorieService categorieService;
 
     @Autowired
     private RecetteIngredientService recetteIngredientService;
 
     @Autowired
-    private IngredientService ingredientService;
+    private IIngredientService ingredientService;
 
     public static void main(String[] args) {
         SpringApplication.run(RecetteEnFamille1Application.class, args);
@@ -74,7 +74,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         // recetteService.deleteRecette(1);
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
-        recetteService.deleteRecette(1);
+        // recetteService.deleteRecette(1);
 
     }
 

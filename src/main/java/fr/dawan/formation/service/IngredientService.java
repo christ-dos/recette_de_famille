@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.exception.IngredientNotFoundException;
+import fr.dawan.formation.interfaces.IIngredientService;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class IngredientService {
+public class IngredientService implements IIngredientService {
 
     private IngredientRepository ingredientRepository;
 
@@ -22,6 +23,7 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
+    @Override
     public void saveIngredient(Ingredient ingredient) {
 
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
@@ -29,6 +31,7 @@ public class IngredientService {
         log.debug("service : ingredient enregistré avec l'id :  " + ingredientEnregistre.getId());
     }
 
+    @Override
     public Ingredient updateIngredient(Ingredient ingredient) {
 
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(ingredient.getId());
@@ -46,12 +49,14 @@ public class IngredientService {
 
     }
 
+    @Override
     public List<Ingredient> findAll() {
 
         log.info("service : affichage liste des ingredients recherchés :  ");
         return (List<Ingredient>) ingredientRepository.findAll();
     }
 
+    @Override
     public Ingredient findById(int id) {
 
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(id);
@@ -66,6 +71,7 @@ public class IngredientService {
         return ingredientRecherche.get();
     }
 
+    @Override
     public void deleteIngredient(int id) {
 
         Optional<Ingredient> ingredientAEffacer = ingredientRepository.findById(id);
