@@ -3,7 +3,7 @@
 </p>
 
 >Application de partage de recettes en famille 
->afin de conserver nos recettes de famille pour d'éviter qu'elles ne se perdent!!
+>afin de conserver nos recettes de famille pour éviter qu'elles ne se perdent!!
 
 
 ## Auteur
