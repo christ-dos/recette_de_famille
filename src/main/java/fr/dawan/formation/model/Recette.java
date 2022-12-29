@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +79,7 @@ public class Recette implements Serializable {
 
     @OneToMany(mappedBy = "recette", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH })
+    @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
     public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
