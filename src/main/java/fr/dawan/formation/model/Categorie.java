@@ -56,7 +56,7 @@ public class Categorie implements Serializable {
     /**
      * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
      */
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Recette> recettes;
 

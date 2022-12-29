@@ -49,7 +49,7 @@ public class Ingredient implements Serializable {
     @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
     private List<RecetteIngredient> recettesIngredients;
 
     public void addRecetteIngredient(RecetteIngredient recetteIngredient) {

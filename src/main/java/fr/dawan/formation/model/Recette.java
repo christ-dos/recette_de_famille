@@ -77,8 +77,8 @@ public class Recette implements Serializable {
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "recette", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH })
     @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
