@@ -55,6 +55,11 @@ public class RecetteService implements IRecetteService {
         if (recetteRecherche.isEmpty()) {
             throw new RecetteNotFoundException("Cette recette n'existe pas!");
         }
+        /**
+         * recuperation des versions de la recette et de la catégorie enregistré en BDD
+         */
+        recette.setVersion(recetteRecherche.get().getVersion());
+        recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
         Recette recetteModifie = recetteRepository.save(recette);
 
         log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());

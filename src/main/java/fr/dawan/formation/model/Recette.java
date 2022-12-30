@@ -31,8 +31,8 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "recettes")
 public class Recette implements Serializable {
@@ -40,7 +40,7 @@ public class Recette implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Version
-    int version;
+    private int version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,8 +77,8 @@ public class Recette implements Serializable {
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "recette", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.REMOVE })
     @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
