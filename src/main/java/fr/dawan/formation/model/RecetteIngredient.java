@@ -38,7 +38,7 @@ public class RecetteIngredient implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Version
-    int version;
+    private int version;
 
     /**
      * Clé composite qui fait la jointure entre {@link Recette} et
@@ -65,6 +65,7 @@ public class RecetteIngredient implements Serializable {
      * A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
      * contiennent
      */
+
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("recetteId")
     private Recette recette;

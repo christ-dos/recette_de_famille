@@ -1,7 +1,5 @@
 package fr.dawan.formation;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -72,14 +70,24 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette.ajouterRecetteIngredient(rectteIngredient1);
         recette.ajouterRecetteIngredient(rectteIngredient2);
 
-        recetteService.saveRecette(recette);
-        // recetteService.deleteRecette(1);
+        // recetteService.saveRecette(recette);
+        // recetteService.updateRecette(recette)
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
         // recetteService.deleteRecette(1);
 
-        List<Recette> recettes = recetteService.findAll();
-        System.out.println(recettes);
+//        List<Recette> recettes = recetteService.findAll();
+//        System.out.println(recettes);
+
+        Ingredient tomate = new Ingredient();
+        tomate.setName("poires");
+        System.out.println("version de tomate avnat la suvegerde:" + tomate.getVersion());
+        tomate.setId(4);
+
+        Ingredient ingredient = ingredientService.updateIngredient(tomate);
+        System.out.println("version de tomate avnat la suvegerde:" + ingredient.getVersion());
+        System.out.println(ingredient);
+        // tomate.setVersion(ingredient.getVersion());
 
     }
 

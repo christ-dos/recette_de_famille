@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.dawan.formation.exception.IngredientNotFoundException;
 import fr.dawan.formation.interfaces.IIngredientService;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.repository.IngredientRepository;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -26,27 +26,28 @@ public class IngredientService implements IIngredientService {
     }
 
     @Override
-    public void saveIngredient(Ingredient ingredient) {
+    public Ingredient saveIngredient(Ingredient ingredient) {
 
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
         log.debug("service : ingredient enregistré avec l'id :  " + ingredientEnregistre.getId());
+        return ingredientEnregistre;
     }
 
     @Override
     public Ingredient updateIngredient(Ingredient ingredient) {
-
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(ingredient.getId());
 
         if (ingredientRecherche.isEmpty()) {
-            throw new IngredientNotFoundException("cet ingrédient n'existe pas! ");
-
+            throw new IngredientNotFoundException("Cet ingrédient n'existe pas! ");
         }
-
+        /**
+         * recuperation de la version de l'ingrédient enregistré en BDD
+         */
+        ingredient.setVersion(ingredientRecherche.get().getVersion());
         Ingredient ingredientModifie = ingredientRepository.save(ingredient);
 
         log.debug("service : ingredient modifié avec l'id :  " + ingredientModifie.getId());
-
         return ingredientModifie;
 
     }

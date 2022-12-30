@@ -33,8 +33,8 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "categories")
 public class Categorie implements Serializable {
@@ -42,11 +42,12 @@ public class Categorie implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Version
-    int version;
+    private int version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(precision = 10)
+
     private int id;
 
     @Enumerated(EnumType.STRING)

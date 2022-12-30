@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,15 +31,16 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "ingredients")
 @Getter
 @Setter
-@Table(name = "ingredients")
 public class Ingredient implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Version
-    int version;
+    private int version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(precision = 10)
@@ -50,6 +53,7 @@ public class Ingredient implements Serializable {
     private String urlPicture;
 
     @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
     public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
@@ -62,6 +66,22 @@ public class Ingredient implements Serializable {
     @Override
     public String toString() {
         return "Ingredient [id=" + id + ", name=" + name + ", urlPicture=" + urlPicture + "]";
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrlPicture(String urlPicture) {
+        this.urlPicture = urlPicture;
+    }
+
+    public void setRecettesIngredients(List<RecetteIngredient> recettesIngredients) {
+        this.recettesIngredients = recettesIngredients;
     }
 
 }

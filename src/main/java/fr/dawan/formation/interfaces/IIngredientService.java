@@ -6,7 +6,7 @@ import fr.dawan.formation.model.Ingredient;
 
 public interface IIngredientService {
 
-    void saveIngredient(Ingredient ingredient);
+    Ingredient saveIngredient(Ingredient ingredient);
 
     Ingredient updateIngredient(Ingredient ingredient);
 
