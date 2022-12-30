@@ -26,11 +26,29 @@ public class IngredientService implements IIngredientService {
     }
 
     @Override
-    public Ingredient saveIngredient(Ingredient ingredient) {
+    public List<Ingredient> findAll() {
+        log.info("service : affichage liste des ingredients recherchés :  ");
+        return (List<Ingredient>) ingredientRepository.findAll();
+    }
 
+    @Override
+    public Ingredient findById(int id) {
+        Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(id);
+
+        if (ingredientRecherche.isEmpty()) {
+            log.error("Service: Ingrédient non trouvé");
+            throw new IngredientNotFoundException("Cet ingrédient n'existe pas! ");
+        }
+        log.debug("service : affichage de l'ingredient recherché avec l'id :  " + ingredientRecherche.get().getId());
+
+        return ingredientRecherche.get();
+    }
+
+    @Override
+    public Ingredient saveIngredient(Ingredient ingredient) {
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
-        log.debug("service : ingredient enregistré avec l'id :  " + ingredientEnregistre.getId());
+        log.debug("service : Ingrédient enregistré pour l'id :  " + ingredientEnregistre.getId());
         return ingredientEnregistre;
     }
 
@@ -39,6 +57,7 @@ public class IngredientService implements IIngredientService {
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(ingredient.getId());
 
         if (ingredientRecherche.isEmpty()) {
+            log.error("Service: Ingrédient non trouvé");
             throw new IngredientNotFoundException("Cet ingrédient n'existe pas! ");
         }
         /**
@@ -53,38 +72,12 @@ public class IngredientService implements IIngredientService {
     }
 
     @Override
-    public List<Ingredient> findAll() {
-
-        log.info("service : affichage liste des ingredients recherchés :  ");
-        return (List<Ingredient>) ingredientRepository.findAll();
-    }
-
-    @Override
-    public Ingredient findById(int id) {
-
-        Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(id);
-
-        if (ingredientRecherche.isEmpty()) {
-
-            throw new IngredientNotFoundException("cet ingrédient n'existe pas! ");
-
-        }
-        log.debug("service : affichage de l'ingredient recherché avec l'id :  " + ingredientRecherche.get().getId());
-
-        return ingredientRecherche.get();
-    }
-
-    @Override
     public void deleteIngredient(int id) {
-
         Optional<Ingredient> ingredientAEffacer = ingredientRepository.findById(id);
 
         if (ingredientAEffacer.get().getId() == id) {
-
             ingredientRepository.deleteById(id);
-
             log.debug("service : l'ingredient effacé avec succés:  " + ingredientAEffacer.get().getName());
-
         }
 
     }

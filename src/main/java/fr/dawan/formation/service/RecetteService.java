@@ -28,6 +28,7 @@ public class RecetteService implements IRecetteService {
     @Override
     public List<Recette> findAll() {
         log.info("Service: Affichage de la liste de recettes");
+
         return (List<Recette>) recetteRepository.findAll();
     }
 
@@ -35,17 +36,19 @@ public class RecetteService implements IRecetteService {
     public Recette findById(int id) {
         Optional<Recette> recetteRecherche = recetteRepository.findById(id);
         if (recetteRecherche.isEmpty()) {
+            log.error("Service: Recette non trouvé");
             throw new RecetteNotFoundException("Cette recette n'existe pas!");
         }
         log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
-        return recetteRecherche.get();
 
+        return recetteRecherche.get();
     }
 
     @Override
     public Recette saveRecette(Recette recette) {
         Recette recetteEnregistre = recetteRepository.save(recette);
         log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
+
         return recetteEnregistre;
     }
 
@@ -53,6 +56,7 @@ public class RecetteService implements IRecetteService {
     public Recette updateRecette(Recette recette) {
         Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
         if (recetteRecherche.isEmpty()) {
+            log.error("Service: Recette non trouvé");
             throw new RecetteNotFoundException("Cette recette n'existe pas!");
         }
         /**
@@ -61,8 +65,8 @@ public class RecetteService implements IRecetteService {
         recette.setVersion(recetteRecherche.get().getVersion());
         recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
         Recette recetteModifie = recetteRepository.save(recette);
-
         log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
+
         return recetteModifie;
     }
 

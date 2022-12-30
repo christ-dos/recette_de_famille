@@ -34,6 +34,7 @@ public class IngredientController {
     public ResponseEntity<Iterable<Ingredient>> getAllIngredient() {
         List<Ingredient> ingredients = ingredientService.findAll();
         log.info("Controller: Affichage de la liste d'ingredients");
+
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
@@ -41,6 +42,7 @@ public class IngredientController {
     public ResponseEntity<?> getIngredientById(@Valid @PathVariable("id") int ingredientId) {
         Ingredient ingredient = ingredientService.findById(ingredientId);
         log.debug("Controller: Ingrédient trouvé pour l'ID: " + ingredientId);
+
         return new ResponseEntity<>(ingredient, HttpStatus.OK);
     }
 
@@ -48,6 +50,7 @@ public class IngredientController {
     public ResponseEntity<?> addIngredient(@Valid @RequestBody Ingredient ingredient) {
         Ingredient newIngredient = ingredientService.saveIngredient(ingredient);
         log.debug("Controller: Ingredient ajouté pour ID: " + newIngredient.getId());
+
         return new ResponseEntity<>(newIngredient, HttpStatus.CREATED);
     }
 
@@ -55,6 +58,7 @@ public class IngredientController {
     public ResponseEntity<?> updateIngredient(@Valid @RequestBody Ingredient ingredient) {
         Ingredient updateIngredient = ingredientService.updateIngredient(ingredient);
         log.debug("Controller: Ingredient modifié grâce à son ID: " + updateIngredient.getId());
+
         return new ResponseEntity<>(updateIngredient, HttpStatus.OK);
     }
 
@@ -62,6 +66,7 @@ public class IngredientController {
     public ResponseEntity<?> deleteIngredient(@Valid @PathVariable("id") int ingredientId) {
         ingredientService.deleteIngredient(ingredientId);
         log.debug("Controller: Ingredient effacé pour l'ID: " + ingredientId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
