@@ -1,7 +1,6 @@
 package fr.dawan.formation.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import fr.dawan.formation.model.Categorie;
 
@@ -13,7 +12,6 @@ import fr.dawan.formation.model.Categorie;
  * @author Christine Dos Santos
  *
  */
-@Repository
 public interface CategorieRepository extends CrudRepository<Categorie, Integer> {
 
 }

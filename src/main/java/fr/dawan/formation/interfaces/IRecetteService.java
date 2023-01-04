@@ -16,4 +16,6 @@ public interface IRecetteService {
 
     void deleteRecette(int id);
 
+    Iterable<Recette> findByTitle(String title);
+
 }

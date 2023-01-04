@@ -46,6 +46,7 @@ public class RecetteService implements IRecetteService {
 
     @Override
     public Recette saveRecette(Recette recette) {
+        recette.setTitle(recette.getTitle().toLowerCase());
         Recette recetteEnregistre = recetteRepository.save(recette);
         log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
 
@@ -64,6 +65,7 @@ public class RecetteService implements IRecetteService {
          */
         recette.setVersion(recetteRecherche.get().getVersion());
         recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
+        recette.setTitle(recette.getTitle().toLowerCase());
         Recette recetteModifie = recetteRepository.save(recette);
         log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
 
@@ -77,6 +79,11 @@ public class RecetteService implements IRecetteService {
             recetteRepository.deleteById(id);
             log.debug("Recette effacée avec succés" + recetteAEffacer.get().getTitle());
         }
+    }
+
+    @Override
+    public List<Recette> findByTitle(String title) {
+        return (List<Recette>) recetteRepository.findByTitle(title.toLowerCase());
     }
 
 }

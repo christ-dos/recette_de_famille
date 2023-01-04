@@ -70,7 +70,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette.ajouterRecetteIngredient(rectteIngredient1);
         recette.ajouterRecetteIngredient(rectteIngredient2);
 
-        // recetteService.saveRecette(recette);
+        recetteService.saveRecette(recette);
         // recetteService.updateRecette(recette)
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
@@ -84,10 +84,14 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         System.out.println("version de tomate avnat la suvegerde:" + tomate.getVersion());
         tomate.setId(4);
 
-        Ingredient ingredient = ingredientService.updateIngredient(tomate);
-        System.out.println("version de tomate avnat la suvegerde:" + ingredient.getVersion());
-        System.out.println(ingredient);
+        // Ingredient ingredient = ingredientService.updateIngredient(tomate);
+        // System.out.println("version de tomate avnat la suvegerde:" +
+        // ingredient.getVersion());
+        // System.out.println(ingredient);
         // tomate.setVersion(ingredient.getVersion());
+
+        Iterable<Recette> recettes = recetteService.findByTitle("pouLet BasQuaise");
+        recettes.forEach(x -> System.out.println(x));
 
     }
 
