@@ -14,4 +14,7 @@ import fr.dawan.formation.model.Recette;
  */
 public interface RecetteRepository extends CrudRepository<Recette, Integer> {
     Iterable<Recette> findByTitle(String title);
+
+    Iterable<Recette> findByCategorie(String categorie);
+
 }

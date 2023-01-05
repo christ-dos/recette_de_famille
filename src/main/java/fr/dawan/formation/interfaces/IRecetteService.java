@@ -18,4 +18,6 @@ public interface IRecetteService {
 
     Iterable<Recette> findByTitle(String title);
 
+    List<Recette> findByIngredient(int ingredientId);
+
 }

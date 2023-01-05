@@ -1,7 +1,9 @@
 package fr.dawan.formation.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import fr.dawan.formation.exception.RecetteNotFoundException;
 import fr.dawan.formation.interfaces.IRecetteService;
 import fr.dawan.formation.model.Recette;
+import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +45,36 @@ public class RecetteService implements IRecetteService {
         log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
 
         return recetteRecherche.get();
+    }
+
+    @Override
+    public List<Recette> findByTitle(String title) {
+        return (List<Recette>) recetteRepository.findByTitle(title.toLowerCase());
+    }
+
+    public List<Recette> findByIngredient(int ingredientId) {
+        Iterable<Recette> recettes = recetteRepository.findAll();
+
+        List<Recette> recettesByIngredient = new ArrayList<>();
+
+        if (recettes != null) {
+            List<RecetteIngredient> recettesIngredientByIngredient = new ArrayList<>();
+            for (Recette recette : recettes) {
+                recettesIngredientByIngredient = recette.getRecettesIngredients().stream()
+                        .filter(recetteIngredient -> recetteIngredient.getIngredient().getId() == ingredientId)
+                        .collect(Collectors.toList());
+            }
+            System.out.println("mes recettesIngredient: " + recettesIngredientByIngredient);
+            recettesByIngredient = recettesIngredientByIngredient.stream()
+                    .map(recetteIngredient -> recetteRepository.findById(recetteIngredient.getRecette().getId()).get())
+                    .collect(Collectors.toList());
+
+            // todo faire la requete sur la table RecetteIngredient sera mieux
+        }
+
+        System.out.println("mes recettes: " + recettesByIngredient);
+        return recettesByIngredient;
+
     }
 
     @Override
@@ -79,11 +112,6 @@ public class RecetteService implements IRecetteService {
             recetteRepository.deleteById(id);
             log.debug("Recette effacée avec succés" + recetteAEffacer.get().getTitle());
         }
-    }
-
-    @Override
-    public List<Recette> findByTitle(String title) {
-        return (List<Recette>) recetteRepository.findByTitle(title.toLowerCase());
     }
 
 }
