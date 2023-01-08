@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.dawan.formation.interfaces.IRecetteIngredientService;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteIngredientRepository;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @Transactional
-public class RecetteIngredientService {
+public class RecetteIngredientService implements IRecetteIngredientService {
 
     private RecetteIngredientRepository recetteIngredientRepository;
 
@@ -24,12 +25,15 @@ public class RecetteIngredientService {
         this.recetteIngredientRepository = recetteIngredientRepository;
     }
 
-    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
-        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
-        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
-    }
+//    @Override
+//    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
+//        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
+//        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
+//    } 
+    // Todo clean code
 
-    public List<Recette> getRecetteByIngredient(int ingredientId) {
+    @Override
+    public List<Recette> findRecetteByIngredientId(int ingredientId) {
         List<RecetteIngredient> recettesIngredients = (List<RecetteIngredient>) recetteIngredientRepository
                 .findByIngredientId(ingredientId);
 

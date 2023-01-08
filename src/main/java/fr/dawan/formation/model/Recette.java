@@ -1,8 +1,8 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -77,10 +77,10 @@ public class Recette implements Serializable {
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "recette", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH }, orphanRemoval = true)
     @JsonIgnore
-    private List<RecetteIngredient> recettesIngredients;
+    private Set<RecetteIngredient> recettesIngredients;
 
     public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
             String cookingTime, String restTime, String stepPreparation, String difficultyLevel,
@@ -98,7 +98,7 @@ public class Recette implements Serializable {
 
     public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
         if (this.recettesIngredients == null) {
-            this.recettesIngredients = new ArrayList<>();
+            this.recettesIngredients = new HashSet<>();
         }
         this.recettesIngredients.add(recetteIngredient);
     }

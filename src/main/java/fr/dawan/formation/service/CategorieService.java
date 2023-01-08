@@ -32,4 +32,14 @@ public class CategorieService implements ICategorieService {
         }
     }
 
+    public Categorie saveCategorie(Categorie categorie) {
+        Optional<Categorie> categorieExiste = categorieRepository.findByName(categorie.getName());
+        Categorie categorieSaved = null;
+        if (categorieExiste.isEmpty()) {
+            categorieSaved = categorieRepository.save(categorie);
+        }
+        return categorieSaved;
+
+    }
+
 }

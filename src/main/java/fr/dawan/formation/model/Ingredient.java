@@ -1,12 +1,11 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,36 +51,21 @@ public class Ingredient implements Serializable {
     @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingredient", orphanRemoval = true)
     @JsonIgnore
-    private List<RecetteIngredient> recettesIngredients;
+    private Set<RecetteIngredient> recettesIngredients;
 
     public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
         if (this.recettesIngredients == null) {
-            this.recettesIngredients = new ArrayList<>();
+            this.recettesIngredients = new HashSet<>();
         }
         this.recettesIngredients.add(recetteIngredient);
+
     }
 
     @Override
     public String toString() {
         return "Ingredient [id=" + id + ", name=" + name + ", urlPicture=" + urlPicture + "]";
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setUrlPicture(String urlPicture) {
-        this.urlPicture = urlPicture;
-    }
-
-    public void setRecettesIngredients(List<RecetteIngredient> recettesIngredients) {
-        this.recettesIngredients = recettesIngredients;
     }
 
 }

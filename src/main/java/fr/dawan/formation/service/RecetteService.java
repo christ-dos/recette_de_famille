@@ -1,17 +1,16 @@
 package fr.dawan.formation.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.exception.RecetteNotFoundException;
 import fr.dawan.formation.interfaces.IRecetteService;
+import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.model.Recette;
-import fr.dawan.formation.model.RecetteIngredient;
+import fr.dawan.formation.repository.CategorieRepository;
 import fr.dawan.formation.repository.RecetteRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 public class RecetteService implements IRecetteService {
 
     private RecetteRepository recetteRepository;
+    private CategorieRepository categorieRepository;
 
     @Autowired
-    public RecetteService(RecetteRepository recetteRepository) {
+    public RecetteService(RecetteRepository recetteRepository, CategorieRepository categorieRepository) {
         this.recetteRepository = recetteRepository;
+        this.categorieRepository = categorieRepository;
     }
 
     @Override
@@ -52,30 +53,35 @@ public class RecetteService implements IRecetteService {
         return (List<Recette>) recetteRepository.findByTitle(title.toLowerCase());
     }
 
-    public List<Recette> findByIngredient(int ingredientId) {
-        Iterable<Recette> recettes = recetteRepository.findAll();
-
-        List<Recette> recettesByIngredient = new ArrayList<>();
-
-        if (recettes != null) {
-            List<RecetteIngredient> recettesIngredientByIngredient = new ArrayList<>();
-            for (Recette recette : recettes) {
-                recettesIngredientByIngredient = recette.getRecettesIngredients().stream()
-                        .filter(recetteIngredient -> recetteIngredient.getIngredient().getId() == ingredientId)
-                        .collect(Collectors.toList());
-            }
-            System.out.println("mes recettesIngredient: " + recettesIngredientByIngredient);
-            recettesByIngredient = recettesIngredientByIngredient.stream()
-                    .map(recetteIngredient -> recetteRepository.findById(recetteIngredient.getRecette().getId()).get())
-                    .collect(Collectors.toList());
-
-            // todo faire la requete sur la table RecetteIngredient sera mieux
-        }
-
-        System.out.println("mes recettes: " + recettesByIngredient);
-        return recettesByIngredient;
-
+    public List<Recette> findByCategorie(int categorieId) {
+        Categorie categorie = categorieRepository.findById(categorieId).get();
+        return (List<Recette>) recetteRepository.findByCategorie(categorie);
     }
+
+    public List<Recette> findByIngredient(int ingredientId) {
+//        Iterable<Recette> recettes = recetteRepository.findAll();
+//
+//        List<Recette> recettesByIngredient = new ArrayList<>();
+//
+//        if (recettes != null) {
+//            List<RecetteIngredient> recettesIngredientByIngredient = new ArrayList<>();
+//            for (Recette recette : recettes) {
+//                recettesIngredientByIngredient = recette.getRecettesIngredients().stream()
+//                        .filter(recetteIngredient -> recetteIngredient.getIngredient().getId() == ingredientId)
+//                        .collect(Collectors.toList());
+//            }
+//            System.out.println("mes recettesIngredient: " + recettesIngredientByIngredient);
+//            recettesByIngredient = recettesIngredientByIngredient.stream()
+//                    .map(recetteIngredient -> recetteRepository.findById(recetteIngredient.getRecette().getId()).get())
+//                    .collect(Collectors.toList());
+//
+//            // todo faire la requete sur la table RecetteIngredient sera mieux
+//        }
+//
+//        System.out.println("mes recettes: " + recettesByIngredient);
+        return null;
+//
+    }// todo clean code
 
     @Override
     public Recette saveRecette(Recette recette) {

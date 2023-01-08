@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.formation.interfaces.IRecetteService;
@@ -43,6 +44,22 @@ public class RecetteController {
         log.debug("Controller: recette touvé par ID: " + recetteId);
 
         return new ResponseEntity<>(recette, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/title")
+    public ResponseEntity<?> getRecettesByTitle(@Valid @RequestParam("title") String titreRecette) {
+        List<Recette> recettes = recetteService.findByTitle(titreRecette);
+        log.debug("Controller: recette(s) touvé pour le titre: " + titreRecette);
+
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/categorie")
+    public ResponseEntity<?> getRecettesByCategorieId(@Valid @RequestParam("id") int categorieId) {
+        List<Recette> recettes = recetteService.findByCategorie(categorieId);
+        log.debug("Controller: recette(s) touvé pour la categorie ID: " + categorieId);
+
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
     @PostMapping("/add")

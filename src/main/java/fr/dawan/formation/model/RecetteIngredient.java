@@ -3,7 +3,6 @@ package fr.dawan.formation.model;
 import java.io.Serializable;
 
 import fr.dawan.formation.enumeration.UniteMesureEnum;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -57,7 +56,7 @@ public class RecetteIngredient implements Serializable {
 //    @Column(name = "unite_mesure", length = 5, nullable = false)
 //    private String uniteMesure;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne
     @MapsId("ingredientId")
     private Ingredient ingredient;
 
@@ -66,7 +65,7 @@ public class RecetteIngredient implements Serializable {
      * contiennent
      */
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("recetteId")
     private Recette recette;
 
