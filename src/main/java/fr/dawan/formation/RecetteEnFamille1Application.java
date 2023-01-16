@@ -1,7 +1,5 @@
 package fr.dawan.formation;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -61,9 +59,13 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         Ingredient mozza = new Ingredient();
         Ingredient farine = new Ingredient();
         poulet.setName("poulet");
+        // poulet.setId(1);
         poivron.setName("poivron");
+        // poivron.setId(2);
         mozza.setName("mozza");
+        // mozza.setId(3);
         farine.setName("farine");
+        // farine.setId(4);
 
 //        ingredientService.saveIngredient(poulet);
 //        ingredientService.saveIngredient(poivron);
@@ -134,17 +136,17 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         // System.out.println(ingredient);
         // tomate.setVersion(ingredient.getVersion());
 
-        Iterable<Recette> recettes = recetteService.findByTitle("tomates mozza");
-        recettes.forEach(x -> System.out.println(x));
-
-        List<Recette> recettes1 = recetteIngredientService.findRecetteByIngredientId(3);
-        recettes.forEach(x -> System.out.println(x));
-        System.out.println(recettes1.size());
-
-        recettes = recetteService.findByCategorie(1);
-
-        recettes.forEach(x -> System.out.println(x));
-        System.out.println(recettes1.size());
+//        Iterable<Recette> recettes = recetteService.findByTitle("tomates mozza");
+//        recettes.forEach(x -> System.out.println(x));
+//
+//        List<Recette> recettes1 = recetteIngredientService.findRecetteByIngredientId(3);
+//        recettes.forEach(x -> System.out.println(x));
+//        System.out.println(recettes1.size());
+//
+//        recettes = recetteService.findByCategorie(1);
+//
+//        recettes.forEach(x -> System.out.println(x));
+//        System.out.println(recettes1.size());
 
     }
 

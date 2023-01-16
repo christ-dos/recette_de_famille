@@ -2,6 +2,7 @@ package fr.dawan.formation.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,13 @@ import org.springframework.stereotype.Service;
 import fr.dawan.formation.exception.RecetteNotFoundException;
 import fr.dawan.formation.interfaces.IRecetteService;
 import fr.dawan.formation.model.Categorie;
+import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
+import fr.dawan.formation.model.RecetteIngredient;
+import fr.dawan.formation.model.RecetteIngredientId;
 import fr.dawan.formation.repository.CategorieRepository;
+import fr.dawan.formation.repository.IngredientRepository;
+import fr.dawan.formation.repository.RecetteIngredientRepository;
 import fr.dawan.formation.repository.RecetteRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +28,16 @@ public class RecetteService implements IRecetteService {
 
     private RecetteRepository recetteRepository;
     private CategorieRepository categorieRepository;
+    private IngredientRepository ingredientRepository;
+    private RecetteIngredientRepository recetteIngredientRepository;
 
     @Autowired
-    public RecetteService(RecetteRepository recetteRepository, CategorieRepository categorieRepository) {
+    public RecetteService(RecetteRepository recetteRepository, CategorieRepository categorieRepository,
+            IngredientRepository ingredientRepository, RecetteIngredientRepository recetteIngredientRepository) {
         this.recetteRepository = recetteRepository;
         this.categorieRepository = categorieRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.recetteIngredientRepository = recetteIngredientRepository;
     }
 
     @Override
@@ -85,10 +96,16 @@ public class RecetteService implements IRecetteService {
 
     @Override
     public Recette saveRecette(Recette recette) {
+        saveIngredientNotExists(recette);
+
         recette.setTitle(recette.getTitle().toLowerCase());
         Recette recetteEnregistre = recetteRepository.save(recette);
-        log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
 
+        saveCategorieNotExists(recette.getCategorie());
+
+        saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
+
+        log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
         return recetteEnregistre;
     }
 
@@ -120,4 +137,32 @@ public class RecetteService implements IRecetteService {
         }
     }
 
+    private boolean isIngredientExist(Ingredient ingredient) {
+        if (ingredient.getId() != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private void saveCategorieNotExists(Categorie categorie) {
+        if (categorie.getId() == 0) {
+            categorieRepository.save(categorie);
+        }
+    }
+
+    private void saveIngredientNotExists(Recette recette) {
+
+        List<Ingredient> ingredients = recette.getIngredients();
+        ingredients.stream().filter(ingredient -> !isIngredientExist(ingredient))
+                .map(ingredient -> ingredientRepository.save(ingredient)).collect(Collectors.toList());
+    }
+
+    private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
+        for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
+            recetteIngredient.setId(new RecetteIngredientId(recetteIngredient.getRecette().getId(),
+                    recetteIngredient.getIngredient().getId()));
+            System.out.println(recetteIngredient);
+            recetteIngredientRepository.save(recetteIngredient);
+        }
+    }
 }

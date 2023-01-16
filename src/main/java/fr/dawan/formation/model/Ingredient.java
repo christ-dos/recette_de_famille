@@ -1,8 +1,8 @@
 package fr.dawan.formation.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -53,11 +53,11 @@ public class Ingredient implements Serializable {
 
     @OneToMany(mappedBy = "ingredient", orphanRemoval = true)
     @JsonIgnore
-    private Set<RecetteIngredient> recettesIngredients;
+    private List<RecetteIngredient> recettesIngredients;
 
     public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
         if (this.recettesIngredients == null) {
-            this.recettesIngredients = new HashSet<>();
+            this.recettesIngredients = new ArrayList<>();
         }
         this.recettesIngredients.add(recetteIngredient);
 

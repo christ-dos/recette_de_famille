@@ -1,5 +1,6 @@
 package fr.dawan.formation.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,24 @@ public class CategorieService implements ICategorieService {
         }
         return categorieSaved;
 
+    }
+
+    @Override
+    public List<Categorie> findAll() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Categorie findById(int categorieId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Categorie updateCategorie(Categorie categorie) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

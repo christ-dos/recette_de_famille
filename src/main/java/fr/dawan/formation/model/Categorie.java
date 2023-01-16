@@ -52,6 +52,8 @@ public class Categorie implements Serializable {
     @Column(length = 15, nullable = false)
     private CategorieEnum name;
 
+    // todo ajouter url de l'image
+
     /**
      * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
      */
