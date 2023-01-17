@@ -1,8 +1,10 @@
 package fr.dawan.formation.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
+import org.springframework.data.repository.CrudRepository;
+
+import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.model.Categorie;
 
 /**
@@ -13,7 +15,8 @@ import fr.dawan.formation.model.Categorie;
  * @author Christine Dos Santos
  *
  */
-@Repository
 public interface CategorieRepository extends CrudRepository<Categorie, Integer> {
+
+    Optional<Categorie> findByName(CategorieEnum categorieEnum);
 
 }

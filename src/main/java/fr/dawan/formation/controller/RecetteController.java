@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.formation.interfaces.IRecetteService;
@@ -33,6 +34,7 @@ public class RecetteController {
     public ResponseEntity<List<Recette>> getAllRecette() {
         List<Recette> recettes = recetteService.findAll();
         log.debug("Controller: Affichage de toutes les recettes");
+
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
@@ -40,13 +42,31 @@ public class RecetteController {
     public ResponseEntity<?> getRecetteById(@Valid @PathVariable("id") int recetteId) {
         Recette recette = recetteService.findById(recetteId);
         log.debug("Controller: recette touvé par ID: " + recetteId);
+
         return new ResponseEntity<>(recette, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/title")
+    public ResponseEntity<?> getRecettesByTitle(@Valid @RequestParam("title") String titreRecette) {
+        List<Recette> recettes = recetteService.findByTitle(titreRecette);
+        log.debug("Controller: recette(s) touvé pour le titre: " + titreRecette);
+
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/categorie")
+    public ResponseEntity<?> getRecettesByCategorieId(@Valid @RequestParam("id") int categorieId) {
+        List<Recette> recettes = recetteService.findByCategorie(categorieId);
+        log.debug("Controller: recette(s) touvé pour la categorie ID: " + categorieId);
+
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> addRecette(@Valid @RequestBody Recette recette) {
         Recette newRecette = recetteService.saveRecette(recette);
         log.info("Controller: Recette ajouté");
+
         return new ResponseEntity<>(newRecette, HttpStatus.CREATED);
     }
 
@@ -54,6 +74,7 @@ public class RecetteController {
     public ResponseEntity<?> updateRecette(@Valid @RequestBody Recette recette) {
         Recette updateRecette = recetteService.updateRecette(recette);
         log.debug("Controller: Recette mit à jour pour l'ID: " + updateRecette.getId());
+
         return new ResponseEntity<>(updateRecette, HttpStatus.OK);
     }
 
@@ -61,6 +82,7 @@ public class RecetteController {
     public ResponseEntity<?> deleteRecette(@Valid @PathVariable("id") int recetteId) {
         recetteService.deleteRecette(recetteId);
         log.debug("Controller: Recette effacé pour l'ID: " + recetteId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

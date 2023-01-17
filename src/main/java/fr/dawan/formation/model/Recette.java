@@ -3,6 +3,7 @@ package fr.dawan.formation.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -74,11 +75,10 @@ public class Recette implements Serializable {
     @Column(name = "number_of_people", length = 2)
     private String numberOfPeople;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette", cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "recette", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
@@ -102,6 +102,16 @@ public class Recette implements Serializable {
         }
         this.recettesIngredients.add(recetteIngredient);
     }
+
+    public List<Ingredient> getIngredients() {
+        return this.recettesIngredients.stream().map((recetteIngredient) -> recetteIngredient.getIngredient())
+                .collect(Collectors.toList());
+    }
+
+    // todo implementer une methode permettant de recupererl'ingredient des
+    // receetteIngredient
+    // pour appeller dans le save de service et verifier si ingredient
+    // n'existe pas ds BDD alors le save sion le merge fera le taf
 
     @Override
     public String toString() {

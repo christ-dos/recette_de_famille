@@ -16,4 +16,10 @@ public interface IRecetteService {
 
     void deleteRecette(int id);
 
+    List<Recette> findByTitle(String title);
+
+    List<Recette> findByCategorie(int categorieId);
+
+    List<Recette> findByIngredient(int ingredientId);
+
 }

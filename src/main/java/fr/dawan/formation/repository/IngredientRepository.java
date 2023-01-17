@@ -1,7 +1,6 @@
 package fr.dawan.formation.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import fr.dawan.formation.model.Ingredient;
 
@@ -13,7 +12,6 @@ import fr.dawan.formation.model.Ingredient;
  * @author Christine Dos Santos
  *
  */
-@Repository
 public interface IngredientRepository extends CrudRepository<Ingredient, Integer> {
 
 }

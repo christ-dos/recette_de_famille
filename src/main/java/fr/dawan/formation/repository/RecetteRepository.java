@@ -1,8 +1,8 @@
 package fr.dawan.formation.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
+import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.model.Recette;
 
 /**
@@ -13,7 +13,9 @@ import fr.dawan.formation.model.Recette;
  * @author Christine Dos Santos
  *
  */
-@Repository
 public interface RecetteRepository extends CrudRepository<Recette, Integer> {
+    Iterable<Recette> findByTitle(String title);
+
+    Iterable<Recette> findByCategorie(Categorie categorie);
 
 }
