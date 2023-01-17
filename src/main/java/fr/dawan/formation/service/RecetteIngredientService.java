@@ -39,7 +39,7 @@ public class RecetteIngredientService implements IRecetteIngredientService {
 
         List<Recette> recettes = recettesIngredients.stream().map(RecetteIngredient -> RecetteIngredient.getRecette())
                 .collect(Collectors.toList());
-
+        log.debug("Recette find by ingredient ID: " + ingredientId);
         return recettes;
 
     }

@@ -41,23 +41,37 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette.setTitle("poulet basquaise");
         recette.setStepPreparation("lorem bla bla bla");
         recette.setTimePreparation("20 min");
+        recette.setUrlPicture(
+                "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/69e0b8aa-23ac-4292-9f6e-ab2c1a96a480/Derivates/7b6fec2b-ec98-4e00-8b11-65fcf39f4fa5.jpg");
+        recette.setDifficultyLevel("facile");
+        recette.setTotalTimePreparation("60 mins");
+        recette.setNumberOfPeople("4");
 
         Recette recette1 = new Recette();
         recette1.setTitle("Tomates Mozza");
         recette1.setStepPreparation("lorem bla bla bla");
         recette1.setTimePreparation("20 min");
+        recette1.setUrlPicture(
+                "https://img-3.journaldesfemmes.fr/7lpM6OiA6MTyOen5pF3x3HlTbfE=/750x500/smart/f5013f26a31545f7bb5e896c3423f8e3/recipe-jdf/10026610.jpg");
+        recette1.setDifficultyLevel("facile");
+        recette1.setTotalTimePreparation("15 mins");
+        recette1.setNumberOfPeople("4");
 
         Recette recette2 = new Recette();
         recette2.setTitle("Bolo arroz");
         recette2.setStepPreparation("lorem bla bla bla");
         recette2.setTimePreparation("50 min");
-
+        recette2.setUrlPicture("https://canalcocina.es/medias/users/68106/8fqupyb2kk4fi829cf69.jpg");
+        recette2.setDifficultyLevel("facile");
+        recette2.setTotalTimePreparation("60 mins");
+        recette2.setNumberOfPeople("4");
         // creation ingredients
 
         Ingredient poulet = new Ingredient();
         Ingredient poivron = new Ingredient();
         Ingredient mozza = new Ingredient();
         Ingredient farine = new Ingredient();
+
         poulet.setName("poulet");
         // poulet.setId(1);
         poivron.setName("poivron");
