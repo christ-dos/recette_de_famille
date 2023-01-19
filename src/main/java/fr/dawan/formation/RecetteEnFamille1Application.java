@@ -1,20 +1,24 @@
 package fr.dawan.formation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.enumeration.UniteMesureEnum;
-import fr.dawan.formation.interfaces.ICategorieService;
-import fr.dawan.formation.interfaces.IIngredientService;
-import fr.dawan.formation.interfaces.IRecetteIngredientService;
-import fr.dawan.formation.interfaces.IRecetteService;
 import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
+import fr.dawan.formation.repository.RecetteRepository;
+import fr.dawan.formation.service.interfaces.ICategorieService;
+import fr.dawan.formation.service.interfaces.IIngredientService;
+import fr.dawan.formation.service.interfaces.IRecetteIngredientService;
+import fr.dawan.formation.service.interfaces.IRecetteService;
 
 @SpringBootApplication
 public class RecetteEnFamille1Application implements CommandLineRunner {
@@ -29,6 +33,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
     @Autowired
     private IIngredientService ingredientService;
+
+    @Autowired
+    private RecetteRepository recetteRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(RecetteEnFamille1Application.class, args);
@@ -61,7 +68,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette2.setTitle("Bolo arroz");
         recette2.setStepPreparation("lorem bla bla bla");
         recette2.setTimePreparation("50 min");
-        recette2.setUrlPicture("https://canalcocina.es/medias/users/68106/8fqupyb2kk4fi829cf69.jpg");
+        recette2.setUrlPicture("https://abmauri.pt/wp-content/uploads/2020/02/receita-bolo-de-arroz.jpg");
         recette2.setDifficultyLevel("facile");
         recette2.setTotalTimePreparation("60 mins");
         recette2.setNumberOfPeople("4");
@@ -118,7 +125,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient3.setRecette(recette1);
 
         RecetteIngredient rectteIngredient4 = new RecetteIngredient();
-        rectteIngredient4.setIngredient(farine);
+        rectteIngredient4.setIngredient(mozza);
         rectteIngredient4.setQuantite(1);
         rectteIngredient4.setUniteMesure(UniteMesureEnum.PIECE);
         rectteIngredient4.setRecette(recette2);
@@ -161,7 +168,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 //
 //        recettes.forEach(x -> System.out.println(x));
 //        System.out.println(recettes1.size());
-
+        System.out.println("************************************************************");
+        List<RecetteDTO> rec = recetteService.findByIngredient(3);
+        rec.forEach(x -> System.out.println(x));
     }
 
 }

@@ -1,4 +1,4 @@
-package fr.dawan.formation.interfaces;
+package fr.dawan.formation.service.interfaces;
 
 import java.util.List;
 

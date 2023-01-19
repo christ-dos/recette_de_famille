@@ -1,7 +1,8 @@
-package fr.dawan.formation.interfaces;
+package fr.dawan.formation.service.interfaces;
 
 import java.util.List;
 
+import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.model.Recette;
 
 public interface IRecetteService {
@@ -20,6 +21,6 @@ public interface IRecetteService {
 
     List<Recette> findByCategorie(int categorieId);
 
-    List<Recette> findByIngredient(int ingredientId);
+    List<RecetteDTO> findByIngredient(int ingredientId);
 
 }

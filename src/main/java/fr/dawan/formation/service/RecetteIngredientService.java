@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.dawan.formation.interfaces.IRecetteIngredientService;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteIngredientRepository;
+import fr.dawan.formation.service.interfaces.IRecetteIngredientService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 

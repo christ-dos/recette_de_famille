@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.exception.CategorieNotFoundException;
-import fr.dawan.formation.interfaces.ICategorieService;
 import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.repository.CategorieRepository;
+import fr.dawan.formation.service.interfaces.ICategorieService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
