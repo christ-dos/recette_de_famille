@@ -72,16 +72,16 @@ public class RecetteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addRecette(@Valid @RequestBody Recette recette) {
-        Recette newRecette = recetteService.saveRecette(recette);
+    public ResponseEntity<RecetteDTO> addRecette(@Valid @RequestBody Recette recette) {
+        RecetteDTO recetteSaved = recetteService.saveRecette(recette);
         log.info("Controller: Recette ajouté");
 
-        return new ResponseEntity<>(newRecette, HttpStatus.CREATED);
+        return new ResponseEntity<>(recetteSaved, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateRecette(@Valid @RequestBody Recette recette) {
-        Recette updateRecette = recetteService.updateRecette(recette);
+    public ResponseEntity<RecetteDTO> updateRecette(@Valid @RequestBody Recette recette) {
+        RecetteDTO updateRecette = recetteService.updateRecette(recette);
         log.debug("Controller: Recette mit à jour pour l'ID: " + updateRecette.getId());
 
         return new ResponseEntity<>(updateRecette, HttpStatus.OK);

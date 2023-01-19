@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -57,7 +58,7 @@ public class Categorie implements Serializable {
     /**
      * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
      */
-    @OneToMany(mappedBy = "categorie", orphanRemoval = true)
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Recette> recettes;
 

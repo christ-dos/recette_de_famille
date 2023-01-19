@@ -93,7 +93,7 @@ public class RecetteService implements IRecetteService {
     }
 
     @Override
-    public Recette saveRecette(Recette recette) {
+    public RecetteDTO saveRecette(Recette recette) {
         saveIngredientNotExists(recette);
 
         recette.setTitle(recette.getTitle().toLowerCase());
@@ -102,13 +102,14 @@ public class RecetteService implements IRecetteService {
         saveCategorieNotExists(recette.getCategorie());
 
         saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
+        RecetteDTO recetteDTOSaved = mapper.map(recetteEnregistre, RecetteDTO.class);
 
         log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
-        return recetteEnregistre;
+        return recetteDTOSaved;
     }
 
     @Override
-    public Recette updateRecette(Recette recette) {
+    public RecetteDTO updateRecette(Recette recette) {
         Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
         if (recetteRecherche.isEmpty()) {
             log.error("Service: Recette non trouvé");
@@ -123,7 +124,7 @@ public class RecetteService implements IRecetteService {
         Recette recetteModifie = recetteRepository.save(recette);
         log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
 
-        return recetteModifie;
+        return mapper.map(recetteModifie, RecetteDTO.class);
     }
 
     @Override
@@ -151,8 +152,11 @@ public class RecetteService implements IRecetteService {
     private void saveIngredientNotExists(Recette recette) {
 
         List<Ingredient> ingredients = recette.getIngredients();
-        ingredients.stream().filter(ingredient -> !isIngredientExist(ingredient))
-                .map(ingredient -> ingredientRepository.save(ingredient)).collect(Collectors.toList());
+        if (ingredients != null) {
+            ingredients.stream().filter(ingredient -> !isIngredientExist(ingredient))
+                    .map(ingredient -> ingredientRepository.save(ingredient)).collect(Collectors.toList());
+        }
+
     }
 
     private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {

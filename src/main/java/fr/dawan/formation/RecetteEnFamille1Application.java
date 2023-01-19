@@ -2,6 +2,7 @@ package fr.dawan.formation;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -36,6 +37,8 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
     @Autowired
     private RecetteRepository recetteRepository;
+    @Autowired
+    ModelMapper mapper;
 
     public static void main(String[] args) {
         SpringApplication.run(RecetteEnFamille1Application.class, args);

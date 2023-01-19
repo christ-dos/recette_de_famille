@@ -11,9 +11,9 @@ public interface IRecetteService {
 
     RecetteDTO findById(int id);
 
-    Recette saveRecette(Recette recette);
+    RecetteDTO saveRecette(Recette recette);
 
-    Recette updateRecette(Recette recette);
+    RecetteDTO updateRecette(Recette recette);
 
     void deleteRecette(int id);
 
