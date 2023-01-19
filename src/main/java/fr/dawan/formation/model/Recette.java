@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -79,7 +77,6 @@ public class Recette implements Serializable {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "recette", cascade = { CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
-    @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 
     public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,

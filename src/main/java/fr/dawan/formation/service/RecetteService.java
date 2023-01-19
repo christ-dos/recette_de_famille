@@ -46,14 +46,16 @@ public class RecetteService implements IRecetteService {
     }
 
     @Override
-    public List<Recette> findAll() {
+    public List<RecetteDTO> findAll() {
+        List<Recette> recettes = (List<Recette>) recetteRepository.findAll();
         log.info("Service: Affichage de la liste de recettes");
 
-        return (List<Recette>) recetteRepository.findAll();
+        return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
+
     }
 
     @Override
-    public Recette findById(int id) {
+    public RecetteDTO findById(int id) {
         Optional<Recette> recetteRecherche = recetteRepository.findById(id);
         if (recetteRecherche.isEmpty()) {
             log.error("Service: Recette non trouvé");
@@ -61,17 +63,26 @@ public class RecetteService implements IRecetteService {
         }
         log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
 
-        return recetteRecherche.get();
+        return mapper.map(recetteRecherche.get(), RecetteDTO.class);
+
     }
 
     @Override
-    public List<Recette> findByTitle(String title) {
-        return (List<Recette>) recetteRepository.findByTitle(title.toLowerCase());
+    public List<RecetteDTO> findByTitle(String title) {
+        List<Recette> recettes = recetteRepository.findByTitle(title.toLowerCase());
+        List<RecetteDTO> recettesDTO = recettes.stream().map(r -> mapper.map(r, RecetteDTO.class))
+                .collect(Collectors.toList());
+        return recettesDTO;
+
     }
 
-    public List<Recette> findByCategorie(int categorieId) {
-        Categorie categorie = categorieRepository.findById(categorieId).get();
-        return (List<Recette>) recetteRepository.findByCategorie(categorie);
+    public List<RecetteDTO> findByCategorie(int categorieId) {
+        // Categorie categorie = categorieRepository.findById(categorieId).get();
+        List<Recette> recettesByCategorie = recetteRepository.findByCategorieId(categorieId);
+
+        List<RecetteDTO> recettesByCategorieDTO = recettesByCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
+                .collect(Collectors.toList());
+        return recettesByCategorieDTO;
     }
 
     public List<RecetteDTO> findByIngredient(int ingredientId) {

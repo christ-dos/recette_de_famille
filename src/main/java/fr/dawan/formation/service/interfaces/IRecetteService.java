@@ -7,9 +7,9 @@ import fr.dawan.formation.model.Recette;
 
 public interface IRecetteService {
 
-    List<Recette> findAll();
+    List<RecetteDTO> findAll();
 
-    Recette findById(int id);
+    RecetteDTO findById(int id);
 
     Recette saveRecette(Recette recette);
 
@@ -17,9 +17,9 @@ public interface IRecetteService {
 
     void deleteRecette(int id);
 
-    List<Recette> findByTitle(String title);
+    List<RecetteDTO> findByTitle(String title);
 
-    List<Recette> findByCategorie(int categorieId);
+    List<RecetteDTO> findByCategorie(int categorieId);
 
     List<RecetteDTO> findByIngredient(int ingredientId);
 

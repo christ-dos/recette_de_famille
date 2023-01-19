@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.model.Recette;
 
 /**
@@ -16,9 +15,9 @@ import fr.dawan.formation.model.Recette;
  *
  */
 public interface RecetteRepository extends CrudRepository<Recette, Integer> {
-    Iterable<Recette> findByTitle(String title);
+    List<Recette> findByTitle(String title);
 
-    Iterable<Recette> findByCategorie(Categorie categorie);
+    List<Recette> findByCategorieId(int id);
 
     List<Recette> findByRecettesIngredientsIngredientId(int id);
 
