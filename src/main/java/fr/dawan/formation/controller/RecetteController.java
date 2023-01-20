@@ -84,7 +84,7 @@ public class RecetteController {
         RecetteDTO updateRecette = recetteService.updateRecette(recette);
         log.debug("Controller: Recette mit à jour pour l'ID: " + updateRecette.getId());
 
-        return new ResponseEntity<>(updateRecette, HttpStatus.OK);
+        return new ResponseEntity<>(updateRecette, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -92,7 +92,7 @@ public class RecetteController {
         recetteService.deleteRecette(recetteId);
         log.debug("Controller: Recette effacé pour l'ID: " + recetteId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }

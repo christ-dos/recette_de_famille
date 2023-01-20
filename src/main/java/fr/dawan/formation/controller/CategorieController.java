@@ -55,13 +55,13 @@ public class CategorieController {
     public ResponseEntity<?> updateCategorie(@Valid @RequestBody Categorie categorie) {
         Categorie updatecategorie = categorieService.updateCategorie(categorie);
         log.debug("Controller: catégorie modifié grâce à son ID: " + updatecategorie.getId());
-        return new ResponseEntity<>(updatecategorie, HttpStatus.OK);
+        return new ResponseEntity<>(updatecategorie, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCategorie(@Valid @PathVariable("id") int categorieId) {
         categorieService.deleteCategorie(categorieId);
         log.debug("Controller: Catégorie effacé pour l'ID: " + categorieId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

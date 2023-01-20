@@ -46,6 +46,7 @@ public class IngredientService implements IIngredientService {
 
     @Override
     public Ingredient saveIngredient(Ingredient ingredient) {
+
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
         log.debug("service : Ingrédient enregistré pour l'id :  " + ingredientEnregistre.getId());

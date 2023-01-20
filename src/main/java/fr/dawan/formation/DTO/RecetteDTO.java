@@ -1,6 +1,9 @@
 package fr.dawan.formation.DTO;
 
+import java.util.List;
+
 import fr.dawan.formation.model.Categorie;
+import fr.dawan.formation.model.RecetteIngredient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,4 +33,6 @@ public class RecetteDTO {
     private String numberOfPeople;
 
     private Categorie categorie;
+
+    private List<RecetteIngredient> recettesIngredient;
 }

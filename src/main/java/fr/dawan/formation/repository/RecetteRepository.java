@@ -2,7 +2,7 @@ package fr.dawan.formation.repository;
 
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.dawan.formation.model.Recette;
 
@@ -14,7 +14,7 @@ import fr.dawan.formation.model.Recette;
  * @author Christine Dos Santos
  *
  */
-public interface RecetteRepository extends CrudRepository<Recette, Integer> {
+public interface RecetteRepository extends JpaRepository<Recette, Integer> {
     List<Recette> findByTitle(String title);
 
     List<Recette> findByCategorieId(int id);
