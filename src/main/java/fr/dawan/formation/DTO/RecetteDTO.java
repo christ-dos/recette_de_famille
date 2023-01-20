@@ -35,4 +35,5 @@ public class RecetteDTO {
     private Categorie categorie;
 
     private List<RecetteIngredient> recettesIngredient;
+    // un commentaitre de test
 }
