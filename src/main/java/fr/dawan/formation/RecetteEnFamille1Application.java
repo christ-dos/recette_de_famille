@@ -128,7 +128,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient3.setRecette(recette1);
 
         RecetteIngredient rectteIngredient4 = new RecetteIngredient();
-        rectteIngredient4.setIngredient(mozza);
+        rectteIngredient4.setIngredient(farine);
         rectteIngredient4.setQuantite(1);
         rectteIngredient4.setUniteMesure(UniteMesureEnum.PIECE);
         rectteIngredient4.setRecette(recette2);

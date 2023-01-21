@@ -33,6 +33,6 @@ public class RecetteDTO {
 
     private Categorie categorie;
 
-    private List<RecetteIngredientDTO> recettesIngredient;
+    private List<RecetteIngredientDTO> recettesIngredients;
 
 }

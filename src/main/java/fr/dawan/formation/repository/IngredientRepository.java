@@ -13,5 +13,5 @@ import fr.dawan.formation.model.Ingredient;
  *
  */
 public interface IngredientRepository extends CrudRepository<Ingredient, Integer> {
-
+    boolean existsByName(String name);
 }
