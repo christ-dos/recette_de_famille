@@ -2,17 +2,18 @@ package fr.dawan.formation.service.interfaces;
 
 import java.util.List;
 
+import fr.dawan.formation.DTO.IngredientDTO;
 import fr.dawan.formation.model.Ingredient;
 
 public interface IIngredientService {
 
-    Ingredient saveIngredient(Ingredient ingredient);
+    IngredientDTO saveIngredient(Ingredient ingredient);
 
-    Ingredient updateIngredient(Ingredient ingredient);
+    IngredientDTO updateIngredient(Ingredient ingredient);
 
-    List<Ingredient> findAll();
+    List<IngredientDTO> findAll();
 
-    Ingredient findById(int id);
+    IngredientDTO findById(int id);
 
     void deleteIngredient(int id);
 

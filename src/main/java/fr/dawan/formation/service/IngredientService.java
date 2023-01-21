@@ -2,10 +2,13 @@ package fr.dawan.formation.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.dawan.formation.DTO.IngredientDTO;
 import fr.dawan.formation.exception.IngredientNotFoundException;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.repository.IngredientRepository;
@@ -19,20 +22,24 @@ import lombok.extern.slf4j.Slf4j;
 public class IngredientService implements IIngredientService {
 
     private IngredientRepository ingredientRepository;
+    private ModelMapper mapper;
 
     @Autowired
-    public IngredientService(IngredientRepository ingredientRepository) {
+    public IngredientService(IngredientRepository ingredientRepository, ModelMapper mapper) {
+        this.mapper=mapper;
         this.ingredientRepository = ingredientRepository;
     }
 
     @Override
-    public List<Ingredient> findAll() {
+    public List<IngredientDTO> findAll() {
         log.info("service : affichage liste des ingredients recherchés :  ");
-        return (List<Ingredient>) ingredientRepository.findAll();
+        List<Ingredient> ingredients= (List<Ingredient>) ingredientRepository.findAll();
+        
+        return ingredients.stream().map(i->mapper.map(ingredients, IngredientDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public Ingredient findById(int id) {
+    public IngredientDTO findById(int id) {
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(id);
 
         if (ingredientRecherche.isEmpty()) {
@@ -41,20 +48,20 @@ public class IngredientService implements IIngredientService {
         }
         log.debug("service : affichage de l'ingredient recherché avec l'id :  " + ingredientRecherche.get().getId());
 
-        return ingredientRecherche.get();
+        return mapper.map(ingredientRecherche.get(), IngredientDTO.class);
     }
 
     @Override
-    public Ingredient saveIngredient(Ingredient ingredient) {
+    public IngredientDTO saveIngredient(Ingredient ingredient) {
 
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
         log.debug("service : Ingrédient enregistré pour l'id :  " + ingredientEnregistre.getId());
-        return ingredientEnregistre;
+        return mapper.map(ingredientEnregistre, IngredientDTO.class) ;
     }
 
     @Override
-    public Ingredient updateIngredient(Ingredient ingredient) {
+    public IngredientDTO updateIngredient(Ingredient ingredient) {
         Optional<Ingredient> ingredientRecherche = ingredientRepository.findById(ingredient.getId());
 
         if (ingredientRecherche.isEmpty()) {
@@ -68,7 +75,7 @@ public class IngredientService implements IIngredientService {
         Ingredient ingredientModifie = ingredientRepository.save(ingredient);
 
         log.debug("service : ingredient modifié avec l'id :  " + ingredientModifie.getId());
-        return ingredientModifie;
+        return mapper.map(ingredientModifie, IngredientDTO.class) ;
 
     }
 

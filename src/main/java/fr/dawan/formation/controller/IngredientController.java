@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.dawan.formation.DTO.IngredientDTO;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.service.interfaces.IIngredientService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,8 @@ public class IngredientController {
     private IIngredientService ingredientService;
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<Ingredient>> getAllIngredient() {
-        List<Ingredient> ingredients = ingredientService.findAll();
+    public ResponseEntity<Iterable<IngredientDTO>> getAllIngredient() {
+        List<IngredientDTO> ingredients = ingredientService.findAll();
         log.info("Controller: Affichage de la liste d'ingredients");
 
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
@@ -40,7 +41,7 @@ public class IngredientController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> getIngredientById(@Valid @PathVariable("id") int ingredientId) {
-        Ingredient ingredient = ingredientService.findById(ingredientId);
+        IngredientDTO ingredient = ingredientService.findById(ingredientId);
         log.debug("Controller: Ingrédient trouvé pour l'ID: " + ingredientId);
 
         return new ResponseEntity<>(ingredient, HttpStatus.OK);
@@ -48,7 +49,7 @@ public class IngredientController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addIngredient(@Valid @RequestBody Ingredient ingredient) {
-        Ingredient newIngredient = ingredientService.saveIngredient(ingredient);
+        IngredientDTO newIngredient = ingredientService.saveIngredient(ingredient);
         log.debug("Controller: Ingredient ajouté pour ID: " + newIngredient.getId());
 
         return new ResponseEntity<>(newIngredient, HttpStatus.CREATED);
@@ -56,7 +57,7 @@ public class IngredientController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateIngredient(@Valid @RequestBody Ingredient ingredient) {
-        Ingredient updateIngredient = ingredientService.updateIngredient(ingredient);
+        IngredientDTO updateIngredient = ingredientService.updateIngredient(ingredient);
         log.debug("Controller: Ingredient modifié grâce à son ID: " + updateIngredient.getId());
 
         return new ResponseEntity<>(updateIngredient, HttpStatus.ACCEPTED);
