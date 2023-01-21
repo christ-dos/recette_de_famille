@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.formation.DTO.RecetteDTO;
-import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.service.interfaces.IRecetteService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,7 +79,7 @@ public class RecetteController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<RecetteDTO> updateRecette(@Valid @RequestBody Recette recette) {
+    public ResponseEntity<RecetteDTO> updateRecette(@Valid @RequestBody RecetteDTO recette) {
         RecetteDTO updateRecette = recetteService.updateRecette(recette);
         log.debug("Controller: Recette mit à jour pour l'ID: " + updateRecette.getId());
 

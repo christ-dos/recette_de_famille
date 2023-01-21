@@ -3,7 +3,6 @@ package fr.dawan.formation.service.interfaces;
 import java.util.List;
 
 import fr.dawan.formation.DTO.RecetteDTO;
-import fr.dawan.formation.model.Recette;
 
 public interface IRecetteService {
 
@@ -13,7 +12,7 @@ public interface IRecetteService {
 
     RecetteDTO saveRecette(RecetteDTO recette);
 
-    RecetteDTO updateRecette(Recette recette);
+    RecetteDTO updateRecette(RecetteDTO recette);
 
     void deleteRecette(int id);
 
