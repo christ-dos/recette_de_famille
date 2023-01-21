@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.dawan.formation.interfaces.IIngredientService;
 import fr.dawan.formation.model.Ingredient;
+import fr.dawan.formation.service.interfaces.IIngredientService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -59,7 +59,7 @@ public class IngredientController {
         Ingredient updateIngredient = ingredientService.updateIngredient(ingredient);
         log.debug("Controller: Ingredient modifié grâce à son ID: " + updateIngredient.getId());
 
-        return new ResponseEntity<>(updateIngredient, HttpStatus.OK);
+        return new ResponseEntity<>(updateIngredient, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -67,6 +67,6 @@ public class IngredientController {
         ingredientService.deleteIngredient(ingredientId);
         log.debug("Controller: Ingredient effacé pour l'ID: " + ingredientId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

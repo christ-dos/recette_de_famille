@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.exception.IngredientNotFoundException;
-import fr.dawan.formation.interfaces.IIngredientService;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.repository.IngredientRepository;
+import fr.dawan.formation.service.interfaces.IIngredientService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +46,7 @@ public class IngredientService implements IIngredientService {
 
     @Override
     public Ingredient saveIngredient(Ingredient ingredient) {
+
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
         log.debug("service : Ingrédient enregistré pour l'id :  " + ingredientEnregistre.getId());

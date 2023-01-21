@@ -1,6 +1,6 @@
 package fr.dawan.formation.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.dawan.formation.model.RecetteIngredient;
 
@@ -12,7 +12,7 @@ import fr.dawan.formation.model.RecetteIngredient;
  * @author Christine Dos Santos
  *
  */
-public interface RecetteIngredientRepository extends CrudRepository<RecetteIngredient, Integer> {
+public interface RecetteIngredientRepository extends JpaRepository<RecetteIngredient, Integer> {
 
     Iterable<RecetteIngredient> findByIngredientId(int ingredientId);
 }

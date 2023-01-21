@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.dawan.formation.interfaces.IRecetteIngredientService;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteIngredientRepository;
+import fr.dawan.formation.service.interfaces.IRecetteIngredientService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,12 +25,11 @@ public class RecetteIngredientService implements IRecetteIngredientService {
         this.recetteIngredientRepository = recetteIngredientRepository;
     }
 
-//    @Override
-//    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
-//        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
-//        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
-//    } 
-    // Todo clean code
+    @Override
+    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
+        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
+        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
+    }
 
     @Override
     public List<Recette> findRecetteByIngredientId(int ingredientId) {

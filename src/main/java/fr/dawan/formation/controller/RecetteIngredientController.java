@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.dawan.formation.interfaces.IRecetteIngredientService;
 import fr.dawan.formation.model.Recette;
+import fr.dawan.formation.service.interfaces.IRecetteIngredientService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController

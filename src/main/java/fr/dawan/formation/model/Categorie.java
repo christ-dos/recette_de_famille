@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -52,12 +53,13 @@ public class Categorie implements Serializable {
     @Column(length = 15, nullable = false)
     private CategorieEnum name;
 
-    // todo ajouter url de l'image
+    @Column(name = "url_picture", length = 255)
+    private String urlPicture;
 
     /**
      * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
      */
-    @OneToMany(mappedBy = "categorie", orphanRemoval = true)
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Recette> recettes;
 

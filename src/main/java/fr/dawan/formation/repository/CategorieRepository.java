@@ -2,7 +2,7 @@ package fr.dawan.formation.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.model.Categorie;
@@ -15,8 +15,10 @@ import fr.dawan.formation.model.Categorie;
  * @author Christine Dos Santos
  *
  */
-public interface CategorieRepository extends CrudRepository<Categorie, Integer> {
+public interface CategorieRepository extends JpaRepository<Categorie, Integer> {
 
-    Optional<Categorie> findByName(CategorieEnum categorieEnum);
+    Optional<Categorie> findByName(CategorieEnum name);
+
+    boolean existsByName(CategorieEnum name);
 
 }

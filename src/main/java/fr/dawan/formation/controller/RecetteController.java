@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.dawan.formation.interfaces.IRecetteService;
+import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.model.Recette;
+import fr.dawan.formation.service.interfaces.IRecetteService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -31,51 +32,59 @@ public class RecetteController {
     private IRecetteService recetteService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Recette>> getAllRecette() {
-        List<Recette> recettes = recetteService.findAll();
+    public ResponseEntity<List<RecetteDTO>> getAllRecette() {
+        List<RecetteDTO> recettes = recetteService.findAll();
         log.debug("Controller: Affichage de toutes les recettes");
 
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<?> getRecetteById(@Valid @PathVariable("id") int recetteId) {
-        Recette recette = recetteService.findById(recetteId);
+    public ResponseEntity<RecetteDTO> getRecetteById(@Valid @PathVariable("id") int recetteId) {
+        RecetteDTO recette = recetteService.findById(recetteId);
         log.debug("Controller: recette touvé par ID: " + recetteId);
 
         return new ResponseEntity<>(recette, HttpStatus.OK);
     }
 
     @GetMapping("/find/title")
-    public ResponseEntity<?> getRecettesByTitle(@Valid @RequestParam("title") String titreRecette) {
-        List<Recette> recettes = recetteService.findByTitle(titreRecette);
+    public ResponseEntity<List<RecetteDTO>> getRecettesByTitle(@Valid @RequestParam("title") String titreRecette) {
+        List<RecetteDTO> recettes = recetteService.findByTitle(titreRecette);
         log.debug("Controller: recette(s) touvé pour le titre: " + titreRecette);
 
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
+    @GetMapping("/find/ingredient/{id}")
+    public ResponseEntity<List<RecetteDTO>> getRecettesByIngredientId(@Valid @PathVariable("id") int ingredientId) {
+        List<RecetteDTO> recettes = recetteService.findByIngredient(ingredientId);
+        log.debug("Controller: recette(s) touvé pour l'ingrédient ID: " + ingredientId);
+
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
+    }
+
     @GetMapping("/find/categorie")
-    public ResponseEntity<?> getRecettesByCategorieId(@Valid @RequestParam("id") int categorieId) {
-        List<Recette> recettes = recetteService.findByCategorie(categorieId);
+    public ResponseEntity<List<RecetteDTO>> getRecettesByCategorieId(@Valid @RequestParam("id") int categorieId) {
+        List<RecetteDTO> recettes = recetteService.findByCategorie(categorieId);
         log.debug("Controller: recette(s) touvé pour la categorie ID: " + categorieId);
 
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addRecette(@Valid @RequestBody Recette recette) {
-        Recette newRecette = recetteService.saveRecette(recette);
+    public ResponseEntity<RecetteDTO> addRecette(@Valid @RequestBody RecetteDTO recette) {
+        RecetteDTO recetteSaved = recetteService.saveRecette(recette);
         log.info("Controller: Recette ajouté");
 
-        return new ResponseEntity<>(newRecette, HttpStatus.CREATED);
+        return new ResponseEntity<>(recetteSaved, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateRecette(@Valid @RequestBody Recette recette) {
-        Recette updateRecette = recetteService.updateRecette(recette);
+    public ResponseEntity<RecetteDTO> updateRecette(@Valid @RequestBody Recette recette) {
+        RecetteDTO updateRecette = recetteService.updateRecette(recette);
         log.debug("Controller: Recette mit à jour pour l'ID: " + updateRecette.getId());
 
-        return new ResponseEntity<>(updateRecette, HttpStatus.OK);
+        return new ResponseEntity<>(updateRecette, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -83,7 +92,7 @@ public class RecetteController {
         recetteService.deleteRecette(recetteId);
         log.debug("Controller: Recette effacé pour l'ID: " + recetteId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
