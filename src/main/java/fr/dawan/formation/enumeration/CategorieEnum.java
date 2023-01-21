@@ -9,5 +9,5 @@ package fr.dawan.formation.enumeration;
  *
  */
 public enum CategorieEnum {
-    PLATS, ENTREES, APERITIFS, DESSERTS
+    PLATS, ENTREES, APERITIFS, DESSERTS, SOUPES
 }

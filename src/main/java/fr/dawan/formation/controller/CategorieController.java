@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.dawan.formation.model.Categorie;
+import fr.dawan.formation.DTO.CategorieDTO;
 import fr.dawan.formation.service.interfaces.ICategorieService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,31 +31,32 @@ public class CategorieController {
     private ICategorieService categorieService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Categorie>> getAllCategorie() {
-        List<Categorie> categories = categorieService.findAll();
+    public ResponseEntity<List<CategorieDTO>> getAllCategorie() {
+        List<CategorieDTO> categories = categorieService.findAll();
         log.info("Controller: Affichage de toutes les catégories");
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<?> getCategorieById(@Valid @PathVariable("id") int categorieId) {
-        Categorie categorie = categorieService.findById(categorieId);
+    public ResponseEntity<CategorieDTO> getCategorieById(@Valid @PathVariable("id") int categorieId) {
+        CategorieDTO categorie = categorieService.findById(categorieId);
         log.debug("Controller: trouver une categorie par l'ID: " + categorieId);
         return new ResponseEntity<>(categorie, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCategorie(@Valid @RequestBody Categorie categorie) {
-        Categorie newCategorie = categorieService.saveCategorie(categorie);
+    public ResponseEntity<CategorieDTO> addCategorie(@Valid @RequestBody CategorieDTO categorie) {
+
+        CategorieDTO newCategorie = categorieService.saveCategorie(categorie);
         log.info("Controller: Catégorie added");
         return new ResponseEntity<>(categorie, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateCategorie(@Valid @RequestBody Categorie categorie) {
-        Categorie updatecategorie = categorieService.updateCategorie(categorie);
-        log.debug("Controller: catégorie modifié grâce à son ID: " + updatecategorie.getId());
-        return new ResponseEntity<>(updatecategorie, HttpStatus.ACCEPTED);
+    public ResponseEntity<CategorieDTO> updateCategorie(@Valid @RequestBody CategorieDTO categorie) {
+        CategorieDTO updatecategorieDTO = categorieService.updateCategorie(categorie);
+        log.debug("Controller: catégorie modifié grâce à son ID: " + updatecategorieDTO.getId());
+        return new ResponseEntity<>(updatecategorieDTO, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete/{id}")

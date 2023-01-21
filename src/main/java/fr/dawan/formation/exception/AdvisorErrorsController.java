@@ -49,4 +49,15 @@ public class AdvisorErrorsController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CategorieAlreadyExistException.class)
+    public ResponseEntity<Object> handleCategorieAlreadyExistException(CategorieAlreadyExistException ex,
+            WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
 }
