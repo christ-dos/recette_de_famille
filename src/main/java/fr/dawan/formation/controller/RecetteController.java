@@ -72,7 +72,7 @@ public class RecetteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<RecetteDTO> addRecette(@Valid @RequestBody Recette recette) {
+    public ResponseEntity<RecetteDTO> addRecette(@Valid @RequestBody RecetteDTO recette) {
         RecetteDTO recetteSaved = recetteService.saveRecette(recette);
         log.info("Controller: Recette ajouté");
 

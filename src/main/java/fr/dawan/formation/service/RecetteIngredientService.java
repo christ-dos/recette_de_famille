@@ -25,12 +25,11 @@ public class RecetteIngredientService implements IRecetteIngredientService {
         this.recetteIngredientRepository = recetteIngredientRepository;
     }
 
-//    @Override
-//    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
-//        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
-//        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
-//    } 
-    // Todo clean code
+    @Override
+    public void saveRecetteIngredient(RecetteIngredient recetteIngredient) {
+        RecetteIngredient recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
+        log.debug("Service: Recette ingredient enregistré avec ID: " + recetteIngredientEnregistre.getId());
+    }
 
     @Override
     public List<Recette> findRecetteByIngredientId(int ingredientId) {

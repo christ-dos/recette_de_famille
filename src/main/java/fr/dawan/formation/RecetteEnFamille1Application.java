@@ -83,13 +83,13 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         Ingredient farine = new Ingredient();
 
         poulet.setName("poulet");
-        // poulet.setId(1);
+        poulet.setId(1);
         poivron.setName("poivron");
-        // poivron.setId(2);
+        poivron.setId(2);
         mozza.setName("mozza");
-        // mozza.setId(3);
+        mozza.setId(3);
         farine.setName("farine");
-        // farine.setId(4);
+        farine.setId(4);
 
 //        ingredientService.saveIngredient(poulet);
 //        ingredientService.saveIngredient(poivron);
@@ -98,14 +98,17 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         // mettre une ctagorie à la recette
         Categorie plat = new Categorie();
         plat.setName(CategorieEnum.PLATS);
+        plat.setId(1);
         recette.setCategorie(plat);
 
         Categorie entree = new Categorie();
         entree.setName(CategorieEnum.ENTREES);
+        entree.setId(2);
         recette1.setCategorie(entree);
 
         Categorie dessert = new Categorie();
         dessert.setName(CategorieEnum.DESSERTS);
+        dessert.setId(3);
         recette2.setCategorie(dessert);
 
 //        // ajiuter d'un IngredientRecette à le recette
@@ -128,7 +131,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient3.setRecette(recette1);
 
         RecetteIngredient rectteIngredient4 = new RecetteIngredient();
-        rectteIngredient4.setIngredient(farine);
+        rectteIngredient4.setIngredient(mozza);
         rectteIngredient4.setQuantite(1);
         rectteIngredient4.setUniteMesure(UniteMesureEnum.PIECE);
         rectteIngredient4.setRecette(recette2);
@@ -138,9 +141,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette1.ajouterRecetteIngredient(rectteIngredient3);
         recette2.ajouterRecetteIngredient(rectteIngredient4);
 
-        recetteService.saveRecette(recette);
-        recetteService.saveRecette(recette1);
-        recetteService.saveRecette(recette2);
+        recetteService.saveRecette(mapper.map(recette, RecetteDTO.class));
+        recetteService.saveRecette(mapper.map(recette1, RecetteDTO.class));
+        recetteService.saveRecette(mapper.map(recette2, RecetteDTO.class));
         // recetteService.updateRecette(recette)
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);

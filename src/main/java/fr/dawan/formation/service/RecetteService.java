@@ -93,19 +93,20 @@ public class RecetteService implements IRecetteService {
     }
 
     @Override
-    public RecetteDTO saveRecette(Recette recette) {
+    public RecetteDTO saveRecette(RecetteDTO recetteDTO) {
+        Recette recette = mapper.map(recetteDTO, Recette.class);
+
+        System.out.println(isCategorieExist(recette.getCategorie()));
         saveIngredientNotExists(recette);
+        saveCategorieNotExists(recette.getCategorie());
 
         recette.setTitle(recette.getTitle().toLowerCase());
         Recette recetteEnregistre = recetteRepository.save(recette);
-
-        saveCategorieNotExists(recette.getCategorie());
 
         saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
 
         RecetteDTO recetteDTOSaved = mapper.map(recetteEnregistre, RecetteDTO.class);
         return recetteDTOSaved;
-        // return recetteEnregistre;
     }
 
 //    @Override
@@ -159,10 +160,16 @@ public class RecetteService implements IRecetteService {
         return false;
     }
 
+    private boolean isCategorieExist(Categorie categorie) {
+        if (categorie.getId() != 0 || categorieRepository.existsByName(categorie.getName())) {
+            return true;
+        }
+        return false;
+    }
+
     private void saveCategorieNotExists(Categorie categorie) {
-        if (categorie.getId() == 0) {
+        if (!isCategorieExist(categorie)) {
             categorieRepository.save(categorie);
-            // exist pas si nom n'est pas dans la base
         }
     }
 
@@ -170,29 +177,19 @@ public class RecetteService implements IRecetteService {
 
         List<Ingredient> ingredients = recette.getIngredients();
         if (ingredients != null) {
-            // ingredients.stream().filter(ingredient -> !isIngredientExist(ingredient))
-            // .map(ingredient -> ingredientRepository.save(ingredient));
             for (Ingredient ingredient : ingredients) {
                 if (!isIngredientExist(ingredient)) {
                     ingredientRepository.save(ingredient);
-                } else {
-                    Ingredient ingredientExiste = ingredientRepository.findById(ingredient.getId()).get();
-                    ingredient.setId(ingredientExiste.getId());
                 }
-
             }
         }
-
-        // refactorer cete methode avec une boucle for si il existe pas save sinon
-        // rectteIngredient.setingredient
-
     }
 
     private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
         for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
-            recetteIngredient.setId(new RecetteIngredientId(recetteIngredient.getRecette().getId(),
-                    recetteIngredient.getIngredient().getId()));
-
+            recetteIngredient.setId(
+                    new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
+            recetteIngredient.setRecette(recetteEnregistre);
             System.out.println(recetteIngredient);
             recetteIngredientRepository.save(recetteIngredient);
         }
