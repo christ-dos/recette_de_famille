@@ -51,7 +51,6 @@ public class RecetteService implements IRecetteService {
         log.info("Service: Affichage de la liste de recettes");
 
         return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
-
     }
 
     @Override
@@ -105,28 +104,13 @@ public class RecetteService implements IRecetteService {
 
         saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
 
-        RecetteDTO recetteDTOSaved = mapper.map(recetteEnregistre, RecetteDTO.class);
-        return recetteDTOSaved;
+        return mapper.map(recetteEnregistre, RecetteDTO.class);
     }
 
-//    @Override
-//    public RecetteDTO saveRecette(Recette recette) {
-//        saveIngredientNotExists(recette);
-//
-//        recette.setTitle(recette.getTitle().toLowerCase());
-//        Recette recetteEnregistre = recetteRepository.save(recette);
-//
-//        saveCategorieNotExists(recette.getCategorie());
-//
-//        saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
-//        RecetteDTO recetteDTOSaved = mapper.map(recetteEnregistre, RecetteDTO.class);
-//
-//        log.debug("Service: Recette enregistré avec ID: " + recetteEnregistre.getId());
-//        return recetteDTOSaved;
-//    }
-
     @Override
-    public RecetteDTO updateRecette(Recette recette) {
+    public RecetteDTO updateRecette(RecetteDTO recetteDTO) {
+        Recette recette = mapper.map(recetteDTO, Recette.class);
+
         Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
         if (recetteRecherche.isEmpty()) {
             log.error("Service: Recette non trouvé");
@@ -186,12 +170,14 @@ public class RecetteService implements IRecetteService {
     }
 
     private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
-        for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
-            recetteIngredient.setId(
-                    new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
-            recetteIngredient.setRecette(recetteEnregistre);
-            System.out.println(recetteIngredient);
-            recetteIngredientRepository.save(recetteIngredient);
+        if (listRecetteIngredient != null) {
+            for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
+                recetteIngredient.setId(
+                        new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
+                recetteIngredient.setRecette(recetteEnregistre);
+                System.out.println(recetteIngredient);
+                recetteIngredientRepository.save(recetteIngredient);
+            }
         }
     }
 }

@@ -2,6 +2,8 @@ package fr.dawan.formation.DTO;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.model.Recette;
 import lombok.Getter;
@@ -19,5 +21,6 @@ public class CategorieDTO {
 
     private String urlPicture;
 
+    @JsonIgnore
     private List<Recette> recettes;
 }

@@ -2,17 +2,17 @@ package fr.dawan.formation.service.interfaces;
 
 import java.util.List;
 
-import fr.dawan.formation.model.Categorie;
+import fr.dawan.formation.DTO.CategorieDTO;
 
 public interface ICategorieService {
 
-    List<Categorie> findAll();
+    List<CategorieDTO> findAll();
 
-    Categorie findById(int categorieId);
+    CategorieDTO findById(int categorieId);
 
-    Categorie updateCategorie(Categorie categorie);
+    CategorieDTO updateCategorie(CategorieDTO categorie);
 
-    Categorie saveCategorie(Categorie categorie);
+    CategorieDTO saveCategorie(CategorieDTO categorie);
 
     void deleteCategorie(int id);
 

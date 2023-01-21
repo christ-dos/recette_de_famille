@@ -1,7 +1,5 @@
 package fr.dawan.formation;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -175,8 +173,8 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 //        recettes.forEach(x -> System.out.println(x));
 //        System.out.println(recettes1.size());
         System.out.println("************************************************************");
-        List<RecetteDTO> rec = recetteService.findByIngredient(3);
-        rec.forEach(x -> System.out.println(x));
+//        List<RecetteDTO> rec = recetteService.findByIngredient(3);
+//        rec.forEach(x -> System.out.println(x));
     }
 
 }

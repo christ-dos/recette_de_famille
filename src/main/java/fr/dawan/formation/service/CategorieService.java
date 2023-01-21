@@ -2,10 +2,14 @@ package fr.dawan.formation.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.dawan.formation.DTO.CategorieDTO;
+import fr.dawan.formation.exception.CategorieAlreadyExistException;
 import fr.dawan.formation.exception.CategorieNotFoundException;
 import fr.dawan.formation.model.Categorie;
 import fr.dawan.formation.repository.CategorieRepository;
@@ -18,34 +22,58 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class CategorieService implements ICategorieService {
     private CategorieRepository categorieRepository;
+    private ModelMapper mapper;
 
     @Autowired
-    public CategorieService(CategorieRepository categorieRepository) {
+    public CategorieService(CategorieRepository categorieRepository, ModelMapper mapper) {
         this.categorieRepository = categorieRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public List<Categorie> findAll() {
+    public List<CategorieDTO> findAll() {
+        List<Categorie> categories = (List<Categorie>) categorieRepository.findAll();
         log.info("Service: Affichage de la liste des categories");
-        return (List<Categorie>) categorieRepository.findAll();
+
+        return categories.stream().map(c -> mapper.map(c, CategorieDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public Categorie findById(int categorieId) {
+    public CategorieDTO findById(int categorieId) {
         Optional<Categorie> categorieRecherche = categorieRepository.findById(categorieId);
         if (categorieRecherche.isEmpty()) {
             throw new CategorieNotFoundException("Cette categorie n'existe pas!");
         }
         log.debug("Service: Categorie recherché par ID: " + categorieRecherche.get().getId());
-        return categorieRecherche.get();
+
+        return mapper.map(categorieRecherche.get(), CategorieDTO.class);
+    }
+
+    @Override
+    public CategorieDTO saveCategorie(CategorieDTO categorieDTO) {
+        Categorie categorie = mapper.map(categorieDTO, Categorie.class);
+
+        Optional<Categorie> categorieExiste = categorieRepository.findByName(categorie.getName());
+
+        if (!categorieExiste.isEmpty()) {
+            throw new CategorieAlreadyExistException("Cette Catégorie existe déjà!!");
+        }
+        Categorie categorieSaved = categorieRepository.save(categorie);
+
+        return mapper.map(categorieSaved, CategorieDTO.class);
 
     }
 
     @Override
-    public Categorie updateCategorie(Categorie categorie) {
+    public CategorieDTO updateCategorie(CategorieDTO categorieDTO) {
+        Categorie categorie = mapper.map(categorieDTO, Categorie.class);
+
         Optional<Categorie> categorieRecherche = categorieRepository.findById(categorie.getId());
         if (categorieRecherche.isEmpty()) {
-            throw new CategorieNotFoundException("Cette categorie n'existe pas!");
+            throw new CategorieNotFoundException("Cette catégorie n'existe pas!");
+        }
+        if (categorieRepository.existsByName(categorie.getName())) {
+            throw new CategorieAlreadyExistException("Le nom de cette catégorie existe déja!!");
         }
         /**
          * recuperation de la version de la catégorie enregistré en BDD
@@ -54,18 +82,8 @@ public class CategorieService implements ICategorieService {
         Categorie categorieModifie = categorieRepository.save(categorie);
 
         log.debug("Service: Categorie modifiée avec ID: " + categorieModifie.getId());
-        return categorieModifie;
-    }
 
-    @Override
-    public Categorie saveCategorie(Categorie categorie) {
-        Optional<Categorie> categorieExiste = categorieRepository.findByName(categorie.getName());
-        Categorie categorieSaved = null;
-        if (categorieExiste.isEmpty()) {
-            categorieSaved = categorieRepository.save(categorie);
-        }
-        return categorieSaved;
-
+        return mapper.map(categorieModifie, CategorieDTO.class);
     }
 
     @Override
@@ -77,5 +95,4 @@ public class CategorieService implements ICategorieService {
             log.debug("Categorie effacée avec succés" + categorieAEffacer.get().getName());
         }
     }
-
 }
