@@ -33,8 +33,8 @@ public class CategorieService implements ICategorieService {
     @Override
     public List<CategorieDTO> findAll() {
         List<Categorie> categories = (List<Categorie>) categorieRepository.findAll();
-
         log.info("Service: Affichage de la liste des categories");
+
         return categories.stream().map(c -> mapper.map(c, CategorieDTO.class)).collect(Collectors.toList());
     }
 
@@ -45,8 +45,8 @@ public class CategorieService implements ICategorieService {
             throw new CategorieNotFoundException("Cette categorie n'existe pas!");
         }
         log.debug("Service: Categorie recherché par ID: " + categorieRecherche.get().getId());
-        return mapper.map(categorieRecherche.get(), CategorieDTO.class);
 
+        return mapper.map(categorieRecherche.get(), CategorieDTO.class);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class CategorieService implements ICategorieService {
             throw new CategorieAlreadyExistException("Cette Catégorie existe déjà!!");
         }
         Categorie categorieSaved = categorieRepository.save(categorie);
+
         return mapper.map(categorieSaved, CategorieDTO.class);
 
     }
@@ -81,6 +82,7 @@ public class CategorieService implements ICategorieService {
         Categorie categorieModifie = categorieRepository.save(categorie);
 
         log.debug("Service: Categorie modifiée avec ID: " + categorieModifie.getId());
+
         return mapper.map(categorieModifie, CategorieDTO.class);
     }
 
@@ -93,5 +95,4 @@ public class CategorieService implements ICategorieService {
             log.debug("Categorie effacée avec succés" + categorieAEffacer.get().getName());
         }
     }
-
 }

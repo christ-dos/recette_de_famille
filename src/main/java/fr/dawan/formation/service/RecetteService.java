@@ -51,7 +51,6 @@ public class RecetteService implements IRecetteService {
         log.info("Service: Affichage de la liste de recettes");
 
         return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
-
     }
 
     @Override
