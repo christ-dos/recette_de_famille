@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import fr.dawan.formation.DTO.CategorieDTO;
 import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.enumeration.UniteMesureEnum;
@@ -97,17 +98,33 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         Categorie plat = new Categorie();
         plat.setName(CategorieEnum.PLATS);
         plat.setId(1);
+        plat.setUrlPicture("./images/plat.jpg");
         recette.setCategorie(plat);
 
         Categorie entree = new Categorie();
         entree.setName(CategorieEnum.ENTREES);
         entree.setId(2);
+        entree.setUrlPicture("./images/entree.jpg");
         recette1.setCategorie(entree);
 
         Categorie dessert = new Categorie();
         dessert.setName(CategorieEnum.DESSERTS);
         dessert.setId(3);
+        dessert.setUrlPicture("./images/dessert.jpg");
         recette2.setCategorie(dessert);
+
+        Categorie aperitif = new Categorie();
+        aperitif.setName(CategorieEnum.APERITIFS);
+        aperitif.setId(4);
+        aperitif.setUrlPicture("./images/apero.jpg");
+        recette2.setCategorie(aperitif);
+
+        categorieService.updateCategorie(mapper.map(plat, CategorieDTO.class));
+        categorieService.updateCategorie(mapper.map(entree, CategorieDTO.class));
+        categorieService.updateCategorie(mapper.map(dessert, CategorieDTO.class));
+        categorieService.updateCategorie(mapper.map(aperitif, CategorieDTO.class));
+
+        // categorieService.saveCategorie(mapper.map(Aperitif, CategorieDTO.class));
 
 //        // ajiuter d'un IngredientRecette à le recette
         RecetteIngredient rectteIngredient1 = new RecetteIngredient();

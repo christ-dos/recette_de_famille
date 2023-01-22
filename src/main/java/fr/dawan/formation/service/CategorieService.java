@@ -72,9 +72,9 @@ public class CategorieService implements ICategorieService {
         if (categorieRecherche.isEmpty()) {
             throw new CategorieNotFoundException("Cette catégorie n'existe pas!");
         }
-        if (categorieRepository.existsByName(categorie.getName())) {
-            throw new CategorieAlreadyExistException("Le nom de cette catégorie existe déja!!");
-        }
+//        if (categorieRepository.existsByName(categorie.getName())) {
+//            throw new CategorieAlreadyExistException("Le nom de cette catégorie existe déja!!");
+//        }
         /**
          * recuperation de la version de la catégorie enregistré en BDD
          */
