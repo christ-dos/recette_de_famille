@@ -26,16 +26,16 @@ public class IngredientService implements IIngredientService {
 
     @Autowired
     public IngredientService(IngredientRepository ingredientRepository, ModelMapper mapper) {
-        this.mapper=mapper;
+        this.mapper = mapper;
         this.ingredientRepository = ingredientRepository;
     }
 
     @Override
     public List<IngredientDTO> findAll() {
+        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepository.findAll();
         log.info("service : affichage liste des ingredients recherchés :  ");
-        List<Ingredient> ingredients= (List<Ingredient>) ingredientRepository.findAll();
-        
-        return ingredients.stream().map(i->mapper.map(ingredients, IngredientDTO.class)).collect(Collectors.toList());
+        System.out.println(ingredients);
+        return ingredients.stream().map(i -> mapper.map(i, IngredientDTO.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class IngredientService implements IIngredientService {
         Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
 
         log.debug("service : Ingrédient enregistré pour l'id :  " + ingredientEnregistre.getId());
-        return mapper.map(ingredientEnregistre, IngredientDTO.class) ;
+        return mapper.map(ingredientEnregistre, IngredientDTO.class);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class IngredientService implements IIngredientService {
         Ingredient ingredientModifie = ingredientRepository.save(ingredient);
 
         log.debug("service : ingredient modifié avec l'id :  " + ingredientModifie.getId());
-        return mapper.map(ingredientModifie, IngredientDTO.class) ;
+        return mapper.map(ingredientModifie, IngredientDTO.class);
 
     }
 
