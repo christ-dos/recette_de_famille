@@ -68,7 +68,7 @@ public class RecetteService implements IRecetteService {
 
     @Override
     public List<RecetteDTO> findByTitle(String title) {
-        List<Recette> recettes = recetteRepository.findByTitle(title.toLowerCase());
+        List<Recette> recettes = recetteRepository.findByTitleLike(title.toLowerCase());
         List<RecetteDTO> recettesDTO = recettes.stream().map(r -> mapper.map(r, RecetteDTO.class))
                 .collect(Collectors.toList());
         return recettesDTO;

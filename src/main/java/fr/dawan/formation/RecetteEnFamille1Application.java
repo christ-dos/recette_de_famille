@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import fr.dawan.formation.DTO.CategorieDTO;
 import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.enumeration.CategorieEnum;
 import fr.dawan.formation.enumeration.UniteMesureEnum;
@@ -89,19 +88,27 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         Ingredient poivron = new Ingredient();
         Ingredient mozza = new Ingredient();
         Ingredient farine = new Ingredient();
+        Ingredient morue = new Ingredient();
 
         poulet.setName("poulet");
         poulet.setId(1);
+
         poivron.setName("poivron");
         poivron.setId(2);
+
         mozza.setName("mozza");
         mozza.setId(3);
+
         farine.setName("farine");
         farine.setId(5);
+
+        morue.setName("morue");
+        morue.setId(12);
 
 //        ingredientService.saveIngredient(poulet);
 //        ingredientService.saveIngredient(poivron);
 //        ingredientService.saveIngredient(mozza);
+        // ingredientService.saveIngredient(morue);
 
         // mettre une ctagorie à la recette
         Categorie plat = new Categorie();
@@ -128,10 +135,10 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         aperitif.setUrlPicture("./images/apero.jpg");
         recette3.setCategorie(aperitif);
 
-        categorieService.updateCategorie(mapper.map(plat, CategorieDTO.class));
-        categorieService.updateCategorie(mapper.map(entree, CategorieDTO.class));
-        categorieService.updateCategorie(mapper.map(dessert, CategorieDTO.class));
-        categorieService.updateCategorie(mapper.map(aperitif, CategorieDTO.class));
+//        categorieService.updateCategorie(mapper.map(plat, CategorieDTO.class));
+//        categorieService.updateCategorie(mapper.map(entree, CategorieDTO.class));
+//        categorieService.updateCategorie(mapper.map(dessert, CategorieDTO.class));
+//        categorieService.updateCategorie(mapper.map(aperitif, CategorieDTO.class));
 
         // categorieService.saveCategorie(mapper.map(Aperitif, CategorieDTO.class));
 
@@ -158,12 +165,19 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient4.setIngredient(farine);
         rectteIngredient4.setQuantite(100);
         rectteIngredient4.setUniteMesure(UniteMesureEnum.GRAMME);
-        rectteIngredient4.setRecette(recette3);
+        rectteIngredient4.setRecette(recette2);
+
+        RecetteIngredient rectteIngredient5 = new RecetteIngredient();
+        rectteIngredient5.setIngredient(morue);
+        rectteIngredient5.setQuantite(1000);
+        rectteIngredient5.setUniteMesure(UniteMesureEnum.GRAMME);
+        rectteIngredient5.setRecette(recette3);
 
         recette.ajouterRecetteIngredient(rectteIngredient1);
         recette.ajouterRecetteIngredient(rectteIngredient2);
         recette1.ajouterRecetteIngredient(rectteIngredient3);
-        recette3.ajouterRecetteIngredient(rectteIngredient4);
+        recette2.ajouterRecetteIngredient(rectteIngredient4);
+        recette3.ajouterRecetteIngredient(rectteIngredient5);
 
         recetteService.saveRecette(mapper.map(recette, RecetteDTO.class));
         recetteService.saveRecette(mapper.map(recette1, RecetteDTO.class));
