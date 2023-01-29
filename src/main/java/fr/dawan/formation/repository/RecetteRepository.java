@@ -19,6 +19,8 @@ public interface RecetteRepository extends JpaRepository<Recette, Integer> {
 
     List<Recette> findByCategorieId(int id);
 
+    List<Recette> findByCategorieIdAndTitleLike(int categorieId, String modelRecherché);
+
     List<Recette> findByRecettesIngredientsIngredientId(int id);
 
 }

@@ -48,20 +48,21 @@ public class RecetteService implements IRecetteService {
     @Override
     public List<RecetteDTO> findAll() {
         List<Recette> recettes = (List<Recette>) recetteRepository.findAll();
-        log.info("Service: Affichage de la liste de recettes");
 
+        log.info("Service: Affichage de la liste de recettes");
         return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
     }
 
     @Override
     public RecetteDTO findById(int id) {
         Optional<Recette> recetteRecherche = recetteRepository.findById(id);
+
         if (recetteRecherche.isEmpty()) {
             log.error("Service: Recette non trouvé");
             throw new RecetteNotFoundException("Cette recette n'existe pas!");
         }
-        log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
 
+        log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
         return mapper.map(recetteRecherche.get(), RecetteDTO.class);
 
     }
@@ -69,25 +70,47 @@ public class RecetteService implements IRecetteService {
     @Override
     public List<RecetteDTO> findByTitle(String title) {
         List<Recette> recettes = recetteRepository.findByTitleLike(title.toLowerCase());
+
         List<RecetteDTO> recettesDTO = recettes.stream().map(r -> mapper.map(r, RecetteDTO.class))
                 .collect(Collectors.toList());
+
+        log.debug("Service: Recette recherché par titre: " + title);
         return recettesDTO;
 
     }
 
+    @Override
+    public List<RecetteDTO> findByCategorieIdAndTitleLikeModel(int categorieId, String title) {
+        List<Recette> recettesByTitleAndCategorie = recetteRepository.findByCategorieIdAndTitleLike(categorieId,
+                title.toLowerCase());
+
+        List<RecetteDTO> recettesDTO = recettesByTitleAndCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
+                .collect(Collectors.toList());
+
+        log.debug("Service: Recette recherché par titre: " + title + " dans la catégorie ID: " + categorieId);
+        return recettesDTO;
+
+    }
+
+    @Override
     public List<RecetteDTO> findByCategorie(int categorieId) {
-        // Categorie categorie = categorieRepository.findById(categorieId).get();
         List<Recette> recettesByCategorie = recetteRepository.findByCategorieId(categorieId);
 
         List<RecetteDTO> recettesByCategorieDTO = recettesByCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
                 .collect(Collectors.toList());
+
+        log.debug("Service: Recette recherché par catégorie ID: " + categorieId);
         return recettesByCategorieDTO;
     }
 
+    @Override
     public List<RecetteDTO> findByIngredient(int ingredientId) {
         List<Recette> recettesByIngredient = recetteRepository.findByRecettesIngredientsIngredientId(ingredientId);
+
         List<RecetteDTO> recettesByIngredientDTO = recettesByIngredient.stream()
                 .map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
+
+        log.debug("Service: Recette recherché par ingédient ID: " + ingredientId);
         return recettesByIngredientDTO;
     }
 
@@ -95,7 +118,6 @@ public class RecetteService implements IRecetteService {
     public RecetteDTO saveRecette(RecetteDTO recetteDTO) {
         Recette recette = mapper.map(recetteDTO, Recette.class);
 
-        System.out.println(isCategorieExist(recette.getCategorie()));
         saveIngredientNotExists(recette);
         saveCategorieNotExists(recette.getCategorie());
 
@@ -104,6 +126,7 @@ public class RecetteService implements IRecetteService {
 
         saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
 
+        log.debug("Service: Recette ajoutée pour ID: " + recetteEnregistre.getId());
         return mapper.map(recetteEnregistre, RecetteDTO.class);
     }
 
@@ -123,8 +146,8 @@ public class RecetteService implements IRecetteService {
         recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
         recette.setTitle(recette.getTitle().toLowerCase());
         Recette recetteModifie = recetteRepository.save(recette);
-        log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
 
+        log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
         return mapper.map(recetteModifie, RecetteDTO.class);
     }
 
@@ -139,31 +162,39 @@ public class RecetteService implements IRecetteService {
 
     private boolean isIngredientExist(Ingredient ingredient) {
         if (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName())) {
+            log.debug("Service(private): Ingédient existe en BDD");
             return true;
         }
+
+        log.debug("Service(private): Ingédient n'existe pas en BDD");
         return false;
     }
 
     private boolean isCategorieExist(Categorie categorie) {
         if (categorie.getId() != 0 || categorieRepository.existsByName(categorie.getName())) {
+
+            log.debug("Service(private): Catégorie existe en BDD");
             return true;
         }
+        log.debug("Service(private): Catégorie n'existe pas en BDD");
         return false;
     }
 
     private void saveCategorieNotExists(Categorie categorie) {
         if (!isCategorieExist(categorie)) {
-            categorieRepository.save(categorie);
+            Categorie categorieEnregistre = categorieRepository.save(categorie);
+            log.debug("Service(private): Catégorie enregistré pour ID: " + categorieEnregistre.getId());
         }
     }
 
     private void saveIngredientNotExists(Recette recette) {
-
         List<Ingredient> ingredients = recette.getIngredients();
+
         if (ingredients != null) {
             for (Ingredient ingredient : ingredients) {
                 if (!isIngredientExist(ingredient)) {
-                    ingredientRepository.save(ingredient);
+                    Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
+                    log.debug("Service(private): Ingédient enregistré pour ID: " + ingredientEnregistre.getId());
                 }
             }
         }
@@ -171,13 +202,16 @@ public class RecetteService implements IRecetteService {
 
     private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
         if (listRecetteIngredient != null) {
+            RecetteIngredient recetteIngredientEnregistre = null;
             for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
                 recetteIngredient.setId(
                         new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
                 recetteIngredient.setRecette(recetteEnregistre);
-                System.out.println(recetteIngredient);
-                recetteIngredientRepository.save(recetteIngredient);
+
+                recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
             }
+            log.debug("Service(private): RecetteIngredient enregistré pour ID: " + recetteIngredientEnregistre.getId());
+
         }
     }
 }

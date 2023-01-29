@@ -1,5 +1,7 @@
 package fr.dawan.formation;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
 import fr.dawan.formation.model.RecetteIngredient;
 import fr.dawan.formation.repository.RecetteRepository;
+import fr.dawan.formation.service.RecetteService;
 import fr.dawan.formation.service.interfaces.ICategorieService;
 import fr.dawan.formation.service.interfaces.IIngredientService;
 import fr.dawan.formation.service.interfaces.IRecetteIngredientService;
@@ -35,6 +38,8 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
     @Autowired
     private RecetteRepository recetteRepository;
+    @Autowired
+    private RecetteService recetteService2;
     @Autowired
     ModelMapper mapper;
 
@@ -216,6 +221,8 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         System.out.println("************************************************************");
 //        List<RecetteDTO> rec = recetteService.findByIngredient(3);
 //        rec.forEach(x -> System.out.println(x));
+        List<RecetteDTO> recettes1 = recetteService2.findByCategorieIdAndTitleLikeModel(2, "%mozza%");
+        System.out.println(recettes1);
     }
 
 }
