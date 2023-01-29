@@ -78,15 +78,6 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recette2.setDifficultyLevel("facile");
         recette2.setTotalTimePreparation("60 mins");
         recette2.setNumberOfPeople("4");
-
-        Recette recette3 = new Recette();
-        recette3.setTitle("bolinho bacalhau");
-        recette3.setStepPreparation("lorem bla bla bla");
-        recette3.setTimePreparation("50 min");
-        recette3.setUrlPicture("https://www.saborbrasil.it/wp-content/uploads/2021/06/Bolinho-bacalhau.jpg");
-        recette3.setDifficultyLevel("facile");
-        recette3.setTotalTimePreparation("60 mins");
-        recette3.setNumberOfPeople("4");
         // creation ingredients
 
         Ingredient poulet = new Ingredient();
@@ -105,7 +96,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         mozza.setId(3);
 
         farine.setName("farine");
-        farine.setId(5);
+        farine.setId(4);
 
         morue.setName("morue");
         morue.setId(12);
@@ -138,7 +129,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         aperitif.setName(CategorieEnum.APERITIFS);
         aperitif.setId(4);
         aperitif.setUrlPicture("./images/apero.jpg");
-        recette3.setCategorie(aperitif);
+        recette2.setCategorie(aperitif);
 
 //        categorieService.updateCategorie(mapper.map(plat, CategorieDTO.class));
 //        categorieService.updateCategorie(mapper.map(entree, CategorieDTO.class));
@@ -167,6 +158,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient3.setRecette(recette1);
 
         RecetteIngredient rectteIngredient4 = new RecetteIngredient();
+<<<<<<< HEAD
         rectteIngredient4.setIngredient(farine);
         rectteIngredient4.setQuantite(100);
         rectteIngredient4.setUniteMesure(UniteMesureEnum.GRAMME);
@@ -177,17 +169,25 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         rectteIngredient5.setQuantite(1000);
         rectteIngredient5.setUniteMesure(UniteMesureEnum.GRAMME);
         rectteIngredient5.setRecette(recette3);
+=======
+        rectteIngredient4.setIngredient(mozza);
+        rectteIngredient4.setQuantite(1);
+        rectteIngredient4.setUniteMesure(UniteMesureEnum.PIECE);
+        rectteIngredient4.setRecette(recette2);
+>>>>>>> parent of 3631fde (fix methode findAll qui renvoyer des objet null du au mapper en Dto)
 
         recette.ajouterRecetteIngredient(rectteIngredient1);
         recette.ajouterRecetteIngredient(rectteIngredient2);
         recette1.ajouterRecetteIngredient(rectteIngredient3);
         recette2.ajouterRecetteIngredient(rectteIngredient4);
+<<<<<<< HEAD
         recette3.ajouterRecetteIngredient(rectteIngredient5);
+=======
+>>>>>>> parent of 3631fde (fix methode findAll qui renvoyer des objet null du au mapper en Dto)
 
         recetteService.saveRecette(mapper.map(recette, RecetteDTO.class));
         recetteService.saveRecette(mapper.map(recette1, RecetteDTO.class));
         recetteService.saveRecette(mapper.map(recette2, RecetteDTO.class));
-        recetteService.saveRecette(mapper.map(recette3, RecetteDTO.class));
         // recetteService.updateRecette(recette)
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
@@ -221,7 +221,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         System.out.println("************************************************************");
 //        List<RecetteDTO> rec = recetteService.findByIngredient(3);
 //        rec.forEach(x -> System.out.println(x));
-        List<RecetteDTO> recettes1 = recetteService2.findByCategorieIdAndTitleLikeModel(2, "%mozza%");
+        List<RecetteDTO> recettes1 = recetteService2.findByIngredientIdAndTitleLikeModel(3, "%tomate%");
         System.out.println(recettes1);
     }
 

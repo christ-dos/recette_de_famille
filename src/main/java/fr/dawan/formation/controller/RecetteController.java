@@ -64,6 +64,16 @@ public class RecetteController {
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 
+    @GetMapping("/find/ingredient/title")
+    public ResponseEntity<List<RecetteDTO>> getRecettesByTitleAndIngredientId(
+            @Valid @RequestParam("id") int ingredientId, @Valid @RequestParam("title") String titreRecette) {
+        List<RecetteDTO> recettes = recetteService.findByIngredientIdAndTitleLikeModel(ingredientId, titreRecette);
+
+        log.debug("Controller: recette(s) touvé pour le titre: " + titreRecette + " et pour l'ingrédient  ID: "
+                + ingredientId);
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
+    }
+
     @GetMapping("/find/ingredient/{id}")
     public ResponseEntity<List<RecetteDTO>> getRecettesByIngredientId(@Valid @PathVariable("id") int ingredientId) {
         List<RecetteDTO> recettes = recetteService.findByIngredient(ingredientId);

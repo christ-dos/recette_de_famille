@@ -93,6 +93,19 @@ public class RecetteService implements IRecetteService {
     }
 
     @Override
+    public List<RecetteDTO> findByIngredientIdAndTitleLikeModel(int ingredientId, String title) {
+        List<Recette> recettesByTitleAndIngredient = recetteRepository
+                .findByRecettesIngredientsIngredientIdAndTitleLike(ingredientId, title.toLowerCase());
+
+        List<RecetteDTO> recettesDTO = recettesByTitleAndIngredient.stream().map(r -> mapper.map(r, RecetteDTO.class))
+                .collect(Collectors.toList());
+
+        log.debug("Service: Recette recherché par titre: " + title + " pour  l'ingrédeint ID: " + ingredientId);
+        return recettesDTO;
+
+    }
+
+    @Override
     public List<RecetteDTO> findByCategorie(int categorieId) {
         List<Recette> recettesByCategorie = recetteRepository.findByCategorieId(categorieId);
 

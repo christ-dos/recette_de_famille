@@ -24,4 +24,6 @@ public interface IRecetteService {
 
     List<RecetteDTO> findByCategorieIdAndTitleLikeModel(int categorieId, String title);
 
+    List<RecetteDTO> findByIngredientIdAndTitleLikeModel(int ingredientId, String title);
+
 }

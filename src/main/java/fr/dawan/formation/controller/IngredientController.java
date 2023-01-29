@@ -32,9 +32,8 @@ public class IngredientController {
     private IIngredientService ingredientService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<IngredientDTO>> getAllIngredient() {
+    public ResponseEntity<Iterable<IngredientDTO>> getAllIngredient() {
         List<IngredientDTO> ingredients = ingredientService.findAll();
-        System.out.println(ingredients);
         log.info("Controller: Affichage de la liste d'ingredients");
 
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
