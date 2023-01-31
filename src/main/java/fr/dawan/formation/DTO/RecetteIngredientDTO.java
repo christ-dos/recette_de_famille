@@ -1,5 +1,7 @@
 package fr.dawan.formation.DTO;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import fr.dawan.formation.enumeration.UniteMesureEnum;
 import fr.dawan.formation.model.Ingredient;
 import fr.dawan.formation.model.Recette;
@@ -21,6 +23,7 @@ public class RecetteIngredientDTO {
 
     private Ingredient ingredient;
 
+    @JsonBackReference
     private Recette recette;
 
 }
