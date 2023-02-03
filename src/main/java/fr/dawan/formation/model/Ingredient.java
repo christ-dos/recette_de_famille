@@ -51,7 +51,7 @@ public class Ingredient implements Serializable {
     @Column(name = "url_picture", length = 255)
     private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient", orphanRemoval = true)
+    @OneToMany(mappedBy = "ingredient")
     @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 

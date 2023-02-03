@@ -15,6 +15,7 @@ import fr.dawan.formation.model.Recette;
  *
  */
 public interface RecetteRepository extends JpaRepository<Recette, Integer> {
+
     List<Recette> findByTitleLike(String modelRecherché);
 
     List<Recette> findByCategorieId(int id);

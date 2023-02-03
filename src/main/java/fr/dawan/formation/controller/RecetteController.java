@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +37,13 @@ public class RecetteController {
         List<RecetteDTO> recettes = recetteService.findAll();
         log.debug("Controller: Affichage de toutes les recettes");
 
+        return new ResponseEntity<>(recettes, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all", params = { "page", "size" }, produces = "application/json")
+    public ResponseEntity<Page<RecetteDTO>> getAllRecettePagine(Pageable page) {
+        Page<RecetteDTO> recettes = recetteService.findAllPageable(page);
+        log.debug("Controller: Affichage de toutes les recettes paginées");
         return new ResponseEntity<>(recettes, HttpStatus.OK);
     }
 

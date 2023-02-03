@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import fr.dawan.formation.DTO.RecetteDTO;
 import fr.dawan.formation.enumeration.CategorieEnum;
@@ -52,7 +54,15 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         // creation d'une recette
         Recette recette = new Recette();
         recette.setTitle("poulet basquaise");
-        recette.setStepPreparation("lorem bla bla bla");
+        recette.setStepPreparation("ÉTAPE 1\r\n"
+                + "Hacher l'oignon et l'ail. Couper les tomates en morceaux et détailler les poivrons en lanières.\r\n"
+                + "\r\n"
+                + "ÉTAPE 2 +Faire chauffer 4 cuillères à soupe d'huile dans une cocotte. Y faire dorer les oignons, l'ail et les poivron. Laisser cuire 5 min.\r\n"
+                + "\r\n" + "Ajouter les tomates à la cocotte, saler, poivrer. Couvrir et laisser mijoter 20 min.\r\n"
+                + "\r\n" + "ÉTAPE 4\r\n"
+                + "Dans une sauteuse, faire dorer dans l'huile d'olive les morceaux de poulet salés et poivrés.\r\n"
+                + "\r\n" + "ÉTAPE 5\r\n"
+                + "Lorsqu'ils sont dorés, les ajouter aux légumes, couvrir, ajouter le bouquet garni et le vin blanc et c'est parti pour 35 min de cuisson.");
         recette.setTimePreparation("20 min");
         recette.setUrlPicture(
                 "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/69e0b8aa-23ac-4292-9f6e-ab2c1a96a480/Derivates/7b6fec2b-ec98-4e00-8b11-65fcf39f4fa5.jpg");
@@ -97,9 +107,12 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
         poulet.setName("poulet");
         poulet.setId(1);
+        poulet.setUrlPicture(
+                "https://img.freepik.com/photos-gratuite/viande-poulet-cru_1203-6759.jpg?size=626&ext=jpg");
 
         poivron.setName("poivron");
         poivron.setId(2);
+        poivron.setUrlPicture("https://i.etsystatic.com/8688884/r/il/0f492d/2902632692/il_794xN.2902632692_ey6s.jpg");
 
         mozza.setName("mozza");
         mozza.setId(3);
@@ -109,8 +122,9 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 
         morue.setName("morue");
         morue.setId(12);
-
-//        ingredientService.saveIngredient(poulet);
+        ingredientService.updateIngredient(poulet);
+        ingredientService.updateIngredient(poivron);
+//       ingredientService.saveIngredient(poulet);
 //        ingredientService.saveIngredient(poivron);
 //        ingredientService.saveIngredient(mozza);
         // ingredientService.saveIngredient(morue);
@@ -188,6 +202,7 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
         recetteService.saveRecette(mapper.map(recette1, RecetteDTO.class));
         recetteService.saveRecette(mapper.map(recette2, RecetteDTO.class));
         recetteService.saveRecette(mapper.map(recette3, RecetteDTO.class));
+
         // recetteService.updateRecette(recette)
         // categorieService.deleteCategorie(1);
         // ingredientService.deleteIngredient(1);
@@ -223,6 +238,11 @@ public class RecetteEnFamille1Application implements CommandLineRunner {
 //        rec.forEach(x -> System.out.println(x));
         List<RecetteDTO> recettes1 = recetteService2.findByIngredientIdAndTitleLikeModel(3, "%tomate%");
         System.out.println(recettes1);
+
+        Page<RecetteDTO> pageRecette = recetteService.findAllPageable(PageRequest.of(0, 6));
+        pageRecette.forEach(x -> System.out.println(x));
+        // System.out.println(pageRecette.size());
+
     }
 
 }
