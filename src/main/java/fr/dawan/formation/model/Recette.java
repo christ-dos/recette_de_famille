@@ -49,7 +49,7 @@ public class Recette implements Serializable {
     @Column(length = 255, nullable = false)
     private String title;
 
-    @Column(name = "url_picture", length = 1024)
+    @Column(name = "url_picture", length = 16777215)
     private String urlPicture;
 
     @Column(name = "total_time_preparation", length = 20)
