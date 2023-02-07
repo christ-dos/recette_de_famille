@@ -2,7 +2,8 @@ package fr.dawan.formation.DTO;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import fr.dawan.formation.model.Categorie;
 import lombok.Getter;
@@ -35,7 +36,8 @@ public class RecetteDTO {
 
     private Categorie categorie;
 
-    @JsonManagedReference
+    // @JsonManagedReference
+    @Fetch(value = FetchMode.SELECT)
     private List<RecetteIngredientDTO> recettesIngredients;
 
 }
