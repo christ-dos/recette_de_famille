@@ -199,7 +199,8 @@ public class RecetteService implements IRecetteService {
     }
 
     private boolean isIngredientExist(Ingredient ingredient) {
-        if (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName())) {
+        if (ingredient != null
+                && (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName()))) {
             log.debug("Service(private): Ingédient existe en BDD");
             return true;
         }
