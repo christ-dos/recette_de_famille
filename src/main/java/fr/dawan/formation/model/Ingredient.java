@@ -48,10 +48,10 @@ public class Ingredient implements Serializable {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(name = "url_picture", length = 255)
+    @Column(name = "url_picture", length = 500)
     private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient", orphanRemoval = true)
+    @OneToMany(mappedBy = "ingredient")
     @JsonIgnore
     private List<RecetteIngredient> recettesIngredients;
 

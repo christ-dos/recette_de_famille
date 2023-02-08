@@ -49,22 +49,22 @@ public class Recette implements Serializable {
     @Column(length = 255, nullable = false)
     private String title;
 
-    @Column(name = "url_picture", length = 255)
+    @Column(name = "url_picture", length = 16777215)
     private String urlPicture;
 
-    @Column(name = "total_time_preparation", length = 10)
+    @Column(name = "total_time_preparation", length = 20)
     private String totalTimePreparation;
 
-    @Column(name = "time_preparation", length = 10, nullable = false)
+    @Column(name = "time_preparation", length = 20, nullable = false)
     private String timePreparation;
 
-    @Column(name = "cooking_time", length = 10)
+    @Column(name = "cooking_time", length = 20)
     private String cookingTime;
 
-    @Column(name = "rest_time", length = 10)
+    @Column(name = "rest_time", length = 20)
     private String restTime;
 
-    @Column(name = "step_preparation", length = 1024, nullable = false)
+    @Column(name = "step_preparation", length = 65350, nullable = false)
     private String stepPreparation;
 
     @Column(name = "difficulty_level", length = 150)

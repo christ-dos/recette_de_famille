@@ -1,5 +1,7 @@
 package fr.dawan.formation.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.dawan.formation.model.RecetteIngredient;
@@ -14,5 +16,7 @@ import fr.dawan.formation.model.RecetteIngredient;
  */
 public interface RecetteIngredientRepository extends JpaRepository<RecetteIngredient, Integer> {
 
-    Iterable<RecetteIngredient> findByIngredientId(int ingredientId);
+    List<RecetteIngredient> findByIngredientId(int ingredientId);
+
+    List<RecetteIngredient> findByRecetteId(int recetteId);
 }

@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import fr.dawan.formation.DTO.RecetteDTO;
@@ -51,6 +54,28 @@ public class RecetteService implements IRecetteService {
 
         log.info("Service: Affichage de la liste de recettes");
         return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
+    }
+
+//    @Override
+//    public Page<RecetteDTO> findAllPageable(Pageable pageable) {
+//        List<Recette> recettesPaginé = recetteRepository.findAll(pageable).get
+//        System.out.println(recetteRepository.findAll(pageable).getTotalPages());
+//        System.out.println(recettesPaginé);
+//        log.info("Service: Affichage de la liste de recettes");
+//        List<Recette> recettesPaginéDto = recettesPaginé.get().map(r -> mapper.map(r, RecetteDTO.class))
+//                .collect(Collectors.toList());
+//        return 
+//        // recettesPaginé.stream().map(r -> mapper.map(r,
+//        // RecetteDTO.class)).collect(Collectors.toList());
+//        // recettesPaginé.stream().map(r -> mapper.map(r,
+//        // RecetteDTO.class)).collect(Collectors.toList());
+//    }
+
+    @Override
+    public Page<RecetteDTO> findAllPageable(Pageable pageable) {
+        List<Recette> recettesPaginé = recetteRepository.findAll(pageable).getContent();
+        return new PageImpl<RecetteDTO>(
+                recettesPaginé.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList()));
     }
 
     @Override
@@ -174,7 +199,8 @@ public class RecetteService implements IRecetteService {
     }
 
     private boolean isIngredientExist(Ingredient ingredient) {
-        if (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName())) {
+        if (ingredient != null
+                && (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName()))) {
             log.debug("Service(private): Ingédient existe en BDD");
             return true;
         }
