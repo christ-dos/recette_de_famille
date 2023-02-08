@@ -1,3 +1,4 @@
+package fr.dawan.formation;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
