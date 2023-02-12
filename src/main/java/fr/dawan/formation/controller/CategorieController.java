@@ -27,42 +27,42 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/categorie")
 public class CategorieController {
 
-    @Autowired
-    private ICategorieService categorieService;
+	@Autowired
+	private ICategorieService categorieService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<CategorieDTO>> getAllCategorie() {
-        List<CategorieDTO> categories = categorieService.findAll();
-        log.info("Controller: Affichage de toutes les catégories");
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
+	@GetMapping("/all")
+	public ResponseEntity<List<CategorieDTO>> getAllCategorie() {
+		List<CategorieDTO> categories = categorieService.findAll();
+		log.info("Controller: Affichage de toutes les catégories");
+		return new ResponseEntity<>(categories, HttpStatus.OK);
+	}
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<CategorieDTO> getCategorieById(@Valid @PathVariable("id") int categorieId) {
-        CategorieDTO categorie = categorieService.findById(categorieId);
-        log.debug("Controller: trouver une categorie par l'ID: " + categorieId);
-        return new ResponseEntity<>(categorie, HttpStatus.OK);
-    }
+	@GetMapping("/find/{id}")
+	public ResponseEntity<CategorieDTO> getCategorieById(@Valid @PathVariable("id") int categorieId) {
+		CategorieDTO categorie = categorieService.findById(categorieId);
+		log.debug("Controller: trouver une categorie par l'ID: " + categorieId);
+		return new ResponseEntity<>(categorie, HttpStatus.OK);
+	}
 
-    @PostMapping("/add")
-    public ResponseEntity<CategorieDTO> addCategorie(@Valid @RequestBody CategorieDTO categorie) {
+	@PostMapping("/add")
+	public ResponseEntity<CategorieDTO> addCategorie(@Valid @RequestBody CategorieDTO categorie) {
 
-        CategorieDTO newCategorie = categorieService.saveCategorie(categorie);
-        log.info("Controller: Catégorie added");
-        return new ResponseEntity<>(categorie, HttpStatus.CREATED);
-    }
+		CategorieDTO newCategorie = categorieService.saveCategorie(categorie);
+		log.info("Controller: Catégorie added");
+		return new ResponseEntity<>(categorie, HttpStatus.CREATED);
+	}
 
-    @PutMapping("/update")
-    public ResponseEntity<CategorieDTO> updateCategorie(@Valid @RequestBody CategorieDTO categorie) {
-        CategorieDTO updatecategorieDTO = categorieService.updateCategorie(categorie);
-        log.debug("Controller: catégorie modifié grâce à son ID: " + updatecategorieDTO.getId());
-        return new ResponseEntity<>(updatecategorieDTO, HttpStatus.ACCEPTED);
-    }
+	@PutMapping("/update")
+	public ResponseEntity<CategorieDTO> updateCategorie(@Valid @RequestBody CategorieDTO categorie) {
+		CategorieDTO updatecategorieDTO = categorieService.updateCategorie(categorie);
+		log.debug("Controller: catégorie modifié grâce à son ID: " + updatecategorieDTO.getId());
+		return new ResponseEntity<>(updatecategorieDTO, HttpStatus.ACCEPTED);
+	}
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCategorie(@Valid @PathVariable("id") int categorieId) {
-        categorieService.deleteCategorie(categorieId);
-        log.debug("Controller: Catégorie effacé pour l'ID: " + categorieId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteCategorie(@Valid @PathVariable("id") int categorieId) {
+		categorieService.deleteCategorie(categorieId);
+		log.debug("Controller: Catégorie effacé pour l'ID: " + categorieId);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	}
 }

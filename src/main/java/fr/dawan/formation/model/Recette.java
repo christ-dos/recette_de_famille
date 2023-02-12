@@ -36,90 +36,90 @@ import lombok.Setter;
 @Table(name = "recettes")
 public class Recette implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Version
-    private int version;
+	@Version
+	private int version;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 10)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(length = 10)
+	private int id;
 
-    @Column(length = 255, nullable = false)
-    private String title;
+	@Column(length = 255, nullable = false)
+	private String title;
 
-    @Column(name = "url_picture", length = 16777215)
-    private String urlPicture;
+	@Column(name = "url_picture", length = 16777215)
+	private String urlPicture;
 
-    @Column(name = "total_time_preparation", length = 20)
-    private String totalTimePreparation;
+	@Column(name = "total_time_preparation", length = 20, nullable = false)
+	private String totalTimePreparation;
 
-    @Column(name = "time_preparation", length = 20, nullable = false)
-    private String timePreparation;
+	@Column(name = "time_preparation", length = 20)
+	private String timePreparation;
 
-    @Column(name = "cooking_time", length = 20)
-    private String cookingTime;
+	@Column(name = "cooking_time", length = 20)
+	private String cookingTime;
 
-    @Column(name = "rest_time", length = 20)
-    private String restTime;
+	@Column(name = "rest_time", length = 20)
+	private String restTime;
 
-    @Column(name = "step_preparation", length = 65350, nullable = false)
-    private String stepPreparation;
+	@Column(name = "step_preparation", length = 65350, nullable = false)
+	private String stepPreparation;
 
-    @Column(name = "difficulty_level", length = 150)
-    private String difficultyLevel;
+	@Column(name = "difficulty_level", length = 150)
+	private String difficultyLevel;
 
-    @Column(name = "number_of_people", length = 2)
-    private String numberOfPeople;
+	@Column(name = "number_of_people", length = 2)
+	private String numberOfPeople;
 
-    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
-    private Categorie categorie;
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	private Categorie categorie;
 
-    @OneToMany(mappedBy = "recette", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
-    private List<RecetteIngredient> recettesIngredients;
+	@OneToMany(mappedBy = "recette", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
+	private List<RecetteIngredient> recettesIngredients;
 
-    public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
-            String cookingTime, String restTime, String stepPreparation, String difficultyLevel,
-            String numberOfPeople) {
-        this.title = title;
-        this.urlPicture = urlPicture;
-        this.totalTimePreparation = totalTimePreparation;
-        this.timePreparation = timePreparation;
-        this.cookingTime = cookingTime;
-        this.restTime = restTime;
-        this.stepPreparation = stepPreparation;
-        this.difficultyLevel = difficultyLevel;
-        this.numberOfPeople = numberOfPeople;
-    }
+	public Recette(String title, String urlPicture, String totalTimePreparation, String timePreparation,
+			String cookingTime, String restTime, String stepPreparation, String difficultyLevel,
+			String numberOfPeople) {
+		this.title = title;
+		this.urlPicture = urlPicture;
+		this.totalTimePreparation = totalTimePreparation;
+		this.timePreparation = timePreparation;
+		this.cookingTime = cookingTime;
+		this.restTime = restTime;
+		this.stepPreparation = stepPreparation;
+		this.difficultyLevel = difficultyLevel;
+		this.numberOfPeople = numberOfPeople;
+	}
 
-    public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
-        if (this.recettesIngredients == null) {
-            this.recettesIngredients = new ArrayList<>();
-        }
-        this.recettesIngredients.add(recetteIngredient);
-    }
+	public void ajouterRecetteIngredient(RecetteIngredient recetteIngredient) {
+		if (this.recettesIngredients == null) {
+			this.recettesIngredients = new ArrayList<>();
+		}
+		this.recettesIngredients.add(recetteIngredient);
+	}
 
-    public List<Ingredient> getIngredients() {
-        if (this.recettesIngredients != null) {
-            return this.recettesIngredients.stream().map((recetteIngredient) -> recetteIngredient.getIngredient())
-                    .collect(Collectors.toList());
-        }
-        return null;
+	public List<Ingredient> getIngredients() {
+		if (this.recettesIngredients != null) {
+			return this.recettesIngredients.stream().map((recetteIngredient) -> recetteIngredient.getIngredient())
+					.collect(Collectors.toList());
+		}
+		return null;
 
-    }
+	}
 
-    // todo implementer une methode permettant de recupererl'ingredient des
-    // receetteIngredient
-    // pour appeller dans le save de service et verifier si ingredient
-    // n'existe pas ds BDD alors le save sion le merge fera le taf
+	// todo implementer une methode permettant de recupererl'ingredient des
+	// receetteIngredient
+	// pour appeller dans le save de service et verifier si ingredient
+	// n'existe pas ds BDD alors le save sion le merge fera le taf
 
-    @Override
-    public String toString() {
-        return "Recette [id=" + id + ", title=" + title + ", urlPicture=" + urlPicture + ", totalTimePreparation="
-                + totalTimePreparation + ", timePreparation=" + timePreparation + ", cookingTime=" + cookingTime
-                + ", restTime=" + restTime + ", stepPreparation=" + stepPreparation + ", difficultyLevel="
-                + difficultyLevel + ", numberOfPeople=" + numberOfPeople + ", categorie=" + categorie + "]";
-    }
+	@Override
+	public String toString() {
+		return "Recette [id=" + id + ", title=" + title + ", urlPicture=" + urlPicture + ", totalTimePreparation="
+				+ totalTimePreparation + ", timePreparation=" + timePreparation + ", cookingTime=" + cookingTime
+				+ ", restTime=" + restTime + ", stepPreparation=" + stepPreparation + ", difficultyLevel="
+				+ difficultyLevel + ", numberOfPeople=" + numberOfPeople + ", categorie=" + categorie + "]";
+	}
 
 }
