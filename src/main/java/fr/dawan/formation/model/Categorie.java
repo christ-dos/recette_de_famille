@@ -39,40 +39,40 @@ import lombok.Setter;
 @Table(name = "categories")
 public class Categorie implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Version
-    private int version;
+	@Version
+	private int version;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(precision = 10)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(precision = 10)
+	private int id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 15, nullable = false)
-    private CategorieEnum name;
+	@Enumerated(EnumType.STRING)
+	@Column(length = 15, nullable = false)
+	private CategorieEnum name;
 
-    @Column(name = "url_picture", length = 255)
-    private String urlPicture;
+	@Column(name = "url_picture", length = 255)
+	private String urlPicture;
 
-    /**
-     * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
-     */
-    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    private List<Recette> recettes;
+	/**
+	 * A la suppresion d'une catégorie je supprimes les recettes qui y sont liée
+	 */
+	@OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<Recette> recettes;
 
-    public void addRecette(Recette recette) {
-        if (this.recettes == null) {
-            this.recettes = new ArrayList<>();
-        }
-        this.recettes.add(recette);
-    }
+	public void addRecette(Recette recette) {
+		if (this.recettes == null) {
+			this.recettes = new ArrayList<>();
+		}
+		this.recettes.add(recette);
+	}
 
-    @Override
-    public String toString() {
-        return "Categorie [id=" + id + ", name=" + name + "]";
-    }
+	@Override
+	public String toString() {
+		return "Categorie [id=" + id + ", name=" + name + ", version= " + version + "]";
+	}
 
 }

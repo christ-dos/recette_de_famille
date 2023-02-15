@@ -16,6 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode
 @Entity
 @Table(name = "recettes")
 public class Recette implements Serializable {
@@ -73,7 +75,7 @@ public class Recette implements Serializable {
 	@Column(name = "number_of_people", length = 2)
 	private String numberOfPeople;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.REFRESH })
 	private Categorie categorie;
 
 	@OneToMany(mappedBy = "recette", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
@@ -109,17 +111,13 @@ public class Recette implements Serializable {
 
 	}
 
-	// todo implementer une methode permettant de recupererl'ingredient des
-	// receetteIngredient
-	// pour appeller dans le save de service et verifier si ingredient
-	// n'existe pas ds BDD alors le save sion le merge fera le taf
-
 	@Override
 	public String toString() {
 		return "Recette [id=" + id + ", title=" + title + ", urlPicture=" + urlPicture + ", totalTimePreparation="
 				+ totalTimePreparation + ", timePreparation=" + timePreparation + ", cookingTime=" + cookingTime
 				+ ", restTime=" + restTime + ", stepPreparation=" + stepPreparation + ", difficultyLevel="
-				+ difficultyLevel + ", numberOfPeople=" + numberOfPeople + ", categorie=" + categorie + "]";
+				+ difficultyLevel + ", numberOfPeople=" + numberOfPeople + ", categorie=" + categorie + " ,version= "
+				+ version + "]";
 	}
 
 }

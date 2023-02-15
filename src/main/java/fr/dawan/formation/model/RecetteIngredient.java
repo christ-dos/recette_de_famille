@@ -13,6 +13,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,48 +32,46 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+@EqualsAndHashCode
 @Table(name = "recettes_ingredients")
 public class RecetteIngredient implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Version
-    private int version;
+	@Version
+	private int version;
 
-    /**
-     * Clé composite qui fait la jointure entre {@link Recette} et
-     * {@link Ingredient}
-     */
-    @EmbeddedId
-    private RecetteIngredientId id = new RecetteIngredientId();
+	/**
+	 * Clé composite qui fait la jointure entre {@link Recette} et
+	 * {@link Ingredient}
+	 */
+	@EmbeddedId
+	private RecetteIngredientId id = new RecetteIngredientId();
 
-    @Column(nullable = false)
-    private int quantite;
+	@Column(nullable = false)
+	private int quantite;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "unite_mesure", length = 30, nullable = false)
-    private UniteMesureEnum uniteMesure;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "unite_mesure", length = 30, nullable = false)
+	private UniteMesureEnum uniteMesure;
 
-//    @Column(name = "unite_mesure", length = 5, nullable = false)
-//    private String uniteMesure;
+	@ManyToOne
+	@MapsId("ingredientId")
+	private Ingredient ingredient;
 
-    @ManyToOne
-    @MapsId("ingredientId")
-    private Ingredient ingredient;
+	/**
+	 * A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
+	 * contiennent
+	 */
 
-    /**
-     * A la suppresion d'un ingrédient je souhaite supprimer les recettes qui le
-     * contiennent
-     */
+	@ManyToOne
+	@MapsId("recetteId")
+	private Recette recette;
 
-    @ManyToOne
-    @MapsId("recetteId")
-    private Recette recette;
-
-    @Override
-    public String toString() {
-        return "RecetteIngredient [id=" + id + ", quantite=" + quantite + ", uniteMesure=" + uniteMesure
-                + ", ingredient=" + ingredient + ", recette=" + recette + "]";
-    }
+	@Override
+	public String toString() {
+		return "RecetteIngredient [id=" + id + ", quantite=" + quantite + ", uniteMesure=" + uniteMesure
+				+ ", ingredient=" + ingredient + ", recette=" + recette + ", version= " + version + "]";
+	}
 
 }

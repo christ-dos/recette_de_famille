@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,42 +31,43 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ingredients")
+@EqualsAndHashCode
 @Getter
 @Setter
+@Table(name = "ingredients")
 public class Ingredient implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Version
-    private int version;
+	@Version
+	private int version;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(precision = 10)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(precision = 10)
+	private int id;
 
-    @Column(length = 100, nullable = false)
-    private String name;
+	@Column(length = 100, nullable = false)
+	private String name;
 
-    @Column(name = "url_picture", length = 500)
-    private String urlPicture;
+	@Column(name = "url_picture", length = 500)
+	private String urlPicture;
 
-    @OneToMany(mappedBy = "ingredient")
-    @JsonIgnore
-    private List<RecetteIngredient> recettesIngredients;
+	@OneToMany(mappedBy = "ingredient")
+	@JsonIgnore
+	private List<RecetteIngredient> recettesIngredients;
 
-    public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
-        if (this.recettesIngredients == null) {
-            this.recettesIngredients = new ArrayList<>();
-        }
-        this.recettesIngredients.add(recetteIngredient);
+	public void addRecetteIngredient(RecetteIngredient recetteIngredient) {
+		if (this.recettesIngredients == null) {
+			this.recettesIngredients = new ArrayList<>();
+		}
+		this.recettesIngredients.add(recetteIngredient);
 
-    }
+	}
 
-    @Override
-    public String toString() {
-        return "Ingredient [id=" + id + ", name=" + name + ", urlPicture=" + urlPicture + "]";
-    }
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", name=" + name + ", urlPicture=" + urlPicture + ", version= " + version + "]";
+	}
 
 }

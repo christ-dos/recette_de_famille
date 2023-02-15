@@ -31,226 +31,271 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class RecetteService implements IRecetteService {
 
-    private RecetteRepository recetteRepository;
-    private CategorieRepository categorieRepository;
-    private IngredientRepository ingredientRepository;
-    private RecetteIngredientRepository recetteIngredientRepository;
-    private ModelMapper mapper;
+	private RecetteRepository recetteRepository;
+	private CategorieRepository categorieRepository;
+	private IngredientRepository ingredientRepository;
+	private RecetteIngredientRepository recetteIngredientRepository;
+	private ModelMapper mapper;
 
-    @Autowired
-    public RecetteService(RecetteRepository recetteRepository, CategorieRepository categorieRepository,
-            IngredientRepository ingredientRepository, RecetteIngredientRepository recetteIngredientRepository,
-            ModelMapper mapper) {
-        this.recetteRepository = recetteRepository;
-        this.categorieRepository = categorieRepository;
-        this.ingredientRepository = ingredientRepository;
-        this.recetteIngredientRepository = recetteIngredientRepository;
-        this.mapper = mapper;
-    }
+	@Autowired
+	public RecetteService(RecetteRepository recetteRepository, CategorieRepository categorieRepository,
+			IngredientRepository ingredientRepository, RecetteIngredientRepository recetteIngredientRepository,
+			ModelMapper mapper) {
+		this.recetteRepository = recetteRepository;
+		this.categorieRepository = categorieRepository;
+		this.ingredientRepository = ingredientRepository;
+		this.recetteIngredientRepository = recetteIngredientRepository;
+		this.mapper = mapper;
+	}
 
-    @Override
-    public List<RecetteDTO> findAll() {
-        List<Recette> recettes = (List<Recette>) recetteRepository.findAll();
+	@Override
+	public List<RecetteDTO> findAll() {
+		List<Recette> recettes = (List<Recette>) recetteRepository.findAll();
 
-        log.info("Service: Affichage de la liste de recettes");
-        return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
-    }
+		log.info("Service: Affichage de la liste de recettes");
+		return recettes.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
+	}
 
-//    @Override
-//    public Page<RecetteDTO> findAllPageable(Pageable pageable) {
-//        List<Recette> recettesPaginé = recetteRepository.findAll(pageable).get
-//        System.out.println(recetteRepository.findAll(pageable).getTotalPages());
-//        System.out.println(recettesPaginé);
-//        log.info("Service: Affichage de la liste de recettes");
-//        List<Recette> recettesPaginéDto = recettesPaginé.get().map(r -> mapper.map(r, RecetteDTO.class))
-//                .collect(Collectors.toList());
-//        return 
-//        // recettesPaginé.stream().map(r -> mapper.map(r,
-//        // RecetteDTO.class)).collect(Collectors.toList());
-//        // recettesPaginé.stream().map(r -> mapper.map(r,
-//        // RecetteDTO.class)).collect(Collectors.toList());
-//    }
+	@Override
+	public Page<RecetteDTO> findAllPageable(Pageable pageable) {
+		List<Recette> recettesPaginé = recetteRepository.findAll(pageable).getContent();
+		return new PageImpl<RecetteDTO>(
+				recettesPaginé.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList()));
+	}
 
-    @Override
-    public Page<RecetteDTO> findAllPageable(Pageable pageable) {
-        List<Recette> recettesPaginé = recetteRepository.findAll(pageable).getContent();
-        return new PageImpl<RecetteDTO>(
-                recettesPaginé.stream().map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList()));
-    }
+	@Override
+	public RecetteDTO findById(int id) {
+		Optional<Recette> recetteRecherche = recetteRepository.findById(id);
 
-    @Override
-    public RecetteDTO findById(int id) {
-        Optional<Recette> recetteRecherche = recetteRepository.findById(id);
+		if (recetteRecherche.isEmpty()) {
+			log.error("Service: Recette non trouvé");
+			throw new RecetteNotFoundException("Cette recette n'existe pas!");
+		}
 
-        if (recetteRecherche.isEmpty()) {
-            log.error("Service: Recette non trouvé");
-            throw new RecetteNotFoundException("Cette recette n'existe pas!");
-        }
+		log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
+		return mapper.map(recetteRecherche.get(), RecetteDTO.class);
 
-        log.debug("Service: Recette recherché par ID: " + recetteRecherche.get().getId());
-        return mapper.map(recetteRecherche.get(), RecetteDTO.class);
+	}
 
-    }
+	@Override
+	public List<RecetteDTO> findByTitle(String title) {
+		List<Recette> recettes = recetteRepository.findByTitleLike(title.toLowerCase());
 
-    @Override
-    public List<RecetteDTO> findByTitle(String title) {
-        List<Recette> recettes = recetteRepository.findByTitleLike(title.toLowerCase());
+		List<RecetteDTO> recettesDTO = recettes.stream().map(r -> mapper.map(r, RecetteDTO.class))
+				.collect(Collectors.toList());
 
-        List<RecetteDTO> recettesDTO = recettes.stream().map(r -> mapper.map(r, RecetteDTO.class))
-                .collect(Collectors.toList());
+		log.debug("Service: Recette recherché par titre: " + title);
+		return recettesDTO;
 
-        log.debug("Service: Recette recherché par titre: " + title);
-        return recettesDTO;
+	}
 
-    }
+	@Override
+	public List<RecetteDTO> findByCategorieIdAndTitleLikeModel(int categorieId, String title) {
+		List<Recette> recettesByTitleAndCategorie = recetteRepository.findByCategorieIdAndTitleLike(categorieId,
+				title.toLowerCase());
 
-    @Override
-    public List<RecetteDTO> findByCategorieIdAndTitleLikeModel(int categorieId, String title) {
-        List<Recette> recettesByTitleAndCategorie = recetteRepository.findByCategorieIdAndTitleLike(categorieId,
-                title.toLowerCase());
+		List<RecetteDTO> recettesDTO = recettesByTitleAndCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
+				.collect(Collectors.toList());
 
-        List<RecetteDTO> recettesDTO = recettesByTitleAndCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
-                .collect(Collectors.toList());
+		log.debug("Service: Recette recherché par titre: " + title + " dans la catégorie ID: " + categorieId);
+		return recettesDTO;
 
-        log.debug("Service: Recette recherché par titre: " + title + " dans la catégorie ID: " + categorieId);
-        return recettesDTO;
+	}
 
-    }
+	@Override
+	public List<RecetteDTO> findByIngredientIdAndTitleLikeModel(int ingredientId, String title) {
+		List<Recette> recettesByTitleAndIngredient = recetteRepository
+				.findByRecettesIngredientsIngredientIdAndTitleLike(ingredientId, title.toLowerCase());
 
-    @Override
-    public List<RecetteDTO> findByIngredientIdAndTitleLikeModel(int ingredientId, String title) {
-        List<Recette> recettesByTitleAndIngredient = recetteRepository
-                .findByRecettesIngredientsIngredientIdAndTitleLike(ingredientId, title.toLowerCase());
+		List<RecetteDTO> recettesDTO = recettesByTitleAndIngredient.stream().map(r -> mapper.map(r, RecetteDTO.class))
+				.collect(Collectors.toList());
 
-        List<RecetteDTO> recettesDTO = recettesByTitleAndIngredient.stream().map(r -> mapper.map(r, RecetteDTO.class))
-                .collect(Collectors.toList());
+		log.debug("Service: Recette recherché par titre: " + title + " pour  l'ingrédeint ID: " + ingredientId);
+		return recettesDTO;
 
-        log.debug("Service: Recette recherché par titre: " + title + " pour  l'ingrédeint ID: " + ingredientId);
-        return recettesDTO;
+	}
 
-    }
+	@Override
+	public List<RecetteDTO> findByCategorie(int categorieId) {
+		List<Recette> recettesByCategorie = recetteRepository.findByCategorieId(categorieId);
 
-    @Override
-    public List<RecetteDTO> findByCategorie(int categorieId) {
-        List<Recette> recettesByCategorie = recetteRepository.findByCategorieId(categorieId);
+		List<RecetteDTO> recettesByCategorieDTO = recettesByCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
+				.collect(Collectors.toList());
 
-        List<RecetteDTO> recettesByCategorieDTO = recettesByCategorie.stream().map(r -> mapper.map(r, RecetteDTO.class))
-                .collect(Collectors.toList());
+		log.debug("Service: Recette recherché par catégorie ID: " + categorieId);
+		return recettesByCategorieDTO;
+	}
 
-        log.debug("Service: Recette recherché par catégorie ID: " + categorieId);
-        return recettesByCategorieDTO;
-    }
+	@Override
+	public List<RecetteDTO> findByIngredient(int ingredientId) {
+		List<Recette> recettesByIngredient = recetteRepository.findByRecettesIngredientsIngredientId(ingredientId);
 
-    @Override
-    public List<RecetteDTO> findByIngredient(int ingredientId) {
-        List<Recette> recettesByIngredient = recetteRepository.findByRecettesIngredientsIngredientId(ingredientId);
+		List<RecetteDTO> recettesByIngredientDTO = recettesByIngredient.stream()
+				.map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
 
-        List<RecetteDTO> recettesByIngredientDTO = recettesByIngredient.stream()
-                .map(r -> mapper.map(r, RecetteDTO.class)).collect(Collectors.toList());
+		log.debug("Service: Recette recherché par ingédient ID: " + ingredientId);
+		return recettesByIngredientDTO;
+	}
 
-        log.debug("Service: Recette recherché par ingédient ID: " + ingredientId);
-        return recettesByIngredientDTO;
-    }
+	@Override
+	public RecetteDTO saveRecette(RecetteDTO recetteDTO) {
+		Recette recette = mapper.map(recetteDTO, Recette.class);
 
-    @Override
-    public RecetteDTO saveRecette(RecetteDTO recetteDTO) {
-        Recette recette = mapper.map(recetteDTO, Recette.class);
+		saveIngredientNotExists(recette);
+		saveCategorieNotExists(recette.getCategorie());
 
-        saveIngredientNotExists(recette);
-        saveCategorieNotExists(recette.getCategorie());
+		recette.setTitle(recette.getTitle().toLowerCase());
+		Recette recetteEnregistre = recetteRepository.save(recette);
 
-        recette.setTitle(recette.getTitle().toLowerCase());
-        Recette recetteEnregistre = recetteRepository.save(recette);
+		saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
 
-        saveRecetteIngredient(recetteEnregistre, recette.getRecettesIngredients());
+		log.debug("Service: Recette ajoutée pour ID: " + recetteEnregistre.getId());
+		return mapper.map(recetteEnregistre, RecetteDTO.class);
+	}
 
-        log.debug("Service: Recette ajoutée pour ID: " + recetteEnregistre.getId());
-        return mapper.map(recetteEnregistre, RecetteDTO.class);
-    }
+//	@Override
+//	public RecetteDTO updateRecette(RecetteDTO recetteDTO) {
+//		Recette recette = mapper.map(recetteDTO, Recette.class);
+//
+//		Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
+//		if (recetteRecherche.isEmpty()) {
+//			log.error("Service: Recette non trouvé");
+//			throw new RecetteNotFoundException("Cette recette n'existe pas!");
+//		}
+//		/**
+//		 * recuperation des versions de la recette et de la catégorie enregistré en BDD
+//		 */
+//		recette.setVersion(recetteRecherche.get().getVersion());
+//		recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
+//		recette.setTitle(recette.getTitle().toLowerCase());
+//
+//		for (RecetteIngredient recetteIngredient : recette.getRecettesIngredients()) {
+//
+//			recetteIngredient.setRecette(recette);
+//			recetteIngredient.setIngredient(recette);
+//			System.out.println(recetteIngredient);
+//			for (RecetteIngredient recetteIngredient2 : recetteRecherche.get().getRecettesIngredients()) {
+//				recetteIngredient.setVersion(recetteIngredient2.getVersion());
+//				recetteIngredient.getIngredient().setVersion(recetteIngredient2.getIngredient().getVersion());
+//				if (!recetteIngredient.getIngredient().equals(recetteIngredient2.getIngredient())) {
+//					System.out.println("nouvel ingredeint");
+//
+//				}
+//				// System.out.println(recetteIngredient);
+//				// System.out.println();
+//
+//			}
+//		}
+//
+//		// System.out.println(lst);
+//		Recette recetteModifie = recetteRepository.save(recette);
+//
+//		log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
+//		return mapper.map(recetteModifie, RecetteDTO.class);
+//	}
 
-    @Override
-    public RecetteDTO updateRecette(RecetteDTO recetteDTO) {
-        Recette recette = mapper.map(recetteDTO, Recette.class);
+	@Override
+	public RecetteDTO updateRecette(RecetteDTO recetteDTO) {
+		Recette recette = mapper.map(recetteDTO, Recette.class);
 
-        Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
-        if (recetteRecherche.isEmpty()) {
-            log.error("Service: Recette non trouvé");
-            throw new RecetteNotFoundException("Cette recette n'existe pas!");
-        }
-        /**
-         * recuperation des versions de la recette et de la catégorie enregistré en BDD
-         */
-        recette.setVersion(recetteRecherche.get().getVersion());
-        recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
-        recette.setTitle(recette.getTitle().toLowerCase());
-        Recette recetteModifie = recetteRepository.save(recette);
+		Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
+		if (recetteRecherche.isEmpty()) {
+			log.error("Service: Recette non trouvé");
+			throw new RecetteNotFoundException("Cette recette n'existe pas!");
+		}
+		/**
+		 * recuperation des versions de la recette et de la catégorie enregistré en BDD
+		 */
+		recette.setVersion(recetteRecherche.get().getVersion());
+		recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
+		recette.setTitle(recette.getTitle().toLowerCase());
 
-        log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
-        return mapper.map(recetteModifie, RecetteDTO.class);
-    }
+		for (int i = 0; i < recette.getRecettesIngredients().size(); i++) {
+			recette.getRecettesIngredients().get(i).setRecette(recette);
+			if (recette.getRecettesIngredients().size() > recette.getRecettesIngredients().size()) {
 
-    @Override
-    public void deleteRecette(int id) {
-        Optional<Recette> recetteAEffacer = recetteRepository.findById(id);
-        if (recetteAEffacer.get().getId() == id) {
-            recetteRepository.deleteById(id);
-            log.debug("Recette effacée avec succés" + recetteAEffacer.get().getTitle());
-        }
-    }
+			}
 
-    private boolean isIngredientExist(Ingredient ingredient) {
-        if (ingredient != null
-                && (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName()))) {
-            log.debug("Service(private): Ingédient existe en BDD");
-            return true;
-        }
+			System.out.println("ingredient: " + recette.getRecettesIngredients().get(i).getIngredient());
 
-        log.debug("Service(private): Ingédient n'existe pas en BDD");
-        return false;
-    }
+			if (recette.getRecettesIngredients().get(i).getId().getIngredientId() != (recetteRecherche.get()
+					.getRecettesIngredients().get(i).getId().getIngredientId())) {
+				// recetteIngredientRepository.saveAndFlush(recette.getRecettesIngredients().get(i));
+				recetteIngredientRepository.delete(recetteRecherche.get().getRecettesIngredients().get(i));
+				if (recette.getRecettesIngredients().get(i).getId().getIngredientId() == 0) {
+					ingredientRepository.save(recette.getRecettesIngredients().get(i).getIngredient());
+					log.info("Service: Ingredient ajouté car inexistant en Base");
+				}
+			}
+		}
+		Recette recetteModifie = recetteRepository.save(recette);
 
-    private boolean isCategorieExist(Categorie categorie) {
-        if (categorie.getId() != 0 || categorieRepository.existsByName(categorie.getName())) {
+		log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
+		return mapper.map(recetteModifie, RecetteDTO.class);
+	}
 
-            log.debug("Service(private): Catégorie existe en BDD");
-            return true;
-        }
-        log.debug("Service(private): Catégorie n'existe pas en BDD");
-        return false;
-    }
+	@Override
+	public void deleteRecette(int id) {
+		Optional<Recette> recetteAEffacer = recetteRepository.findById(id);
+		if (recetteAEffacer.get().getId() == id) {
+			recetteRepository.deleteById(id);
+			log.debug("Recette effacée avec succés" + recetteAEffacer.get().getTitle());
+		}
+	}
 
-    private void saveCategorieNotExists(Categorie categorie) {
-        if (!isCategorieExist(categorie)) {
-            Categorie categorieEnregistre = categorieRepository.save(categorie);
-            log.debug("Service(private): Catégorie enregistré pour ID: " + categorieEnregistre.getId());
-        }
-    }
+	private boolean isIngredientExist(Ingredient ingredient) {
+		if (ingredient != null
+				&& (ingredient.getId() != 0 || ingredientRepository.existsByName(ingredient.getName()))) {
+			log.debug("Service(private): Ingédient existe en BDD");
+			return true;
+		}
 
-    private void saveIngredientNotExists(Recette recette) {
-        List<Ingredient> ingredients = recette.getIngredients();
+		log.debug("Service(private): Ingédient n'existe pas en BDD");
+		return false;
+	}
 
-        if (ingredients != null) {
-            for (Ingredient ingredient : ingredients) {
-                if (!isIngredientExist(ingredient)) {
-                    Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
-                    log.debug("Service(private): Ingédient enregistré pour ID: " + ingredientEnregistre.getId());
-                }
-            }
-        }
-    }
+	private boolean isCategorieExist(Categorie categorie) {
+		if (categorie.getId() != 0 || categorieRepository.existsByName(categorie.getName())) {
 
-    private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
-        if (listRecetteIngredient != null) {
-            RecetteIngredient recetteIngredientEnregistre = null;
-            for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
-                recetteIngredient.setId(
-                        new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
-                recetteIngredient.setRecette(recetteEnregistre);
+			log.debug("Service(private): Catégorie existe en BDD");
+			return true;
+		}
+		log.debug("Service(private): Catégorie n'existe pas en BDD");
+		return false;
+	}
 
-                recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
-            }
-            log.debug("Service(private): RecetteIngredient enregistré pour ID: " + recetteIngredientEnregistre.getId());
+	private void saveCategorieNotExists(Categorie categorie) {
+		if (!isCategorieExist(categorie)) {
+			Categorie categorieEnregistre = categorieRepository.save(categorie);
+			log.debug("Service(private): Catégorie enregistré pour ID: " + categorieEnregistre.getId());
+		}
+	}
 
-        }
-    }
+	private void saveIngredientNotExists(Recette recette) {
+		List<Ingredient> ingredients = recette.getIngredients();
+
+		if (ingredients != null) {
+			for (Ingredient ingredient : ingredients) {
+				if (!isIngredientExist(ingredient)) {
+					Ingredient ingredientEnregistre = ingredientRepository.save(ingredient);
+					log.debug("Service(private): Ingédient enregistré pour ID: " + ingredientEnregistre.getId());
+				}
+			}
+		}
+	}
+
+	private void saveRecetteIngredient(Recette recetteEnregistre, List<RecetteIngredient> listRecetteIngredient) {
+		if (listRecetteIngredient != null) {
+			RecetteIngredient recetteIngredientEnregistre = null;
+			for (RecetteIngredient recetteIngredient : listRecetteIngredient) {
+				recetteIngredient.setId(
+						new RecetteIngredientId(recetteEnregistre.getId(), recetteIngredient.getIngredient().getId()));
+				recetteIngredient.setRecette(recetteEnregistre);
+
+				recetteIngredientEnregistre = recetteIngredientRepository.save(recetteIngredient);
+			}
+			log.debug("Service(private): RecetteIngredient enregistré pour ID: " + recetteIngredientEnregistre.getId());
+
+		}
+	}
 }

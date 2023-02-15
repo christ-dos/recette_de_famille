@@ -5,7 +5,6 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,15 +23,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @Embeddable
 public class RecetteIngredientId implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Column(precision = 10, name = "recette_id")
-    private int recetteId;
+	@Column(precision = 10, name = "recette_id")
+	private int recetteId;
 
-    @Column(precision = 10, name = "ingredient_id")
-    private int ingredientId;
+	@Column(precision = 10, name = "ingredient_id")
+	private int ingredientId;
+
 }
