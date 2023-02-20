@@ -197,8 +197,11 @@ public class RecetteService implements IRecetteService {
 	@Override
 	public RecetteDTO updateRecette(RecetteDTO recetteDTO) {
 		Recette recette = mapper.map(recetteDTO, Recette.class);
-
 		Optional<Recette> recetteRecherche = recetteRepository.findById(recette.getId());
+
+		System.out.println("recette: " + recetteRecherche.get());
+		List<RecetteIngredient> listRecetteIngredientEntegistre = recetteRecherche.get().getRecettesIngredients();
+
 		if (recetteRecherche.isEmpty()) {
 			log.error("Service: Recette non trouvé");
 			throw new RecetteNotFoundException("Cette recette n'existe pas!");
@@ -210,24 +213,18 @@ public class RecetteService implements IRecetteService {
 		recette.getCategorie().setVersion(recetteRecherche.get().getCategorie().getVersion());
 		recette.setTitle(recette.getTitle().toLowerCase());
 
-		for (int i = 0; i < recette.getRecettesIngredients().size(); i++) {
-			recette.getRecettesIngredients().get(i).setRecette(recette);
-			if (recette.getRecettesIngredients().size() > recette.getRecettesIngredients().size()) {
+		recette.getRecettesIngredients().forEach(recetteIngredient -> recetteIngredient.setRecette(recette));
+		listRecetteIngredientEntegistre
+				.forEach(recetteIngredient -> recetteIngredientRepository.delete(recetteIngredient));
 
+		for (RecetteIngredient recetteIngredient : recette.getRecettesIngredients()) {
+			if (recetteIngredient.getId().getIngredientId() == 0) {
+				ingredientRepository.save(recetteIngredient.getIngredient());
+				log.info("Service: Ingredient ajouté car inexistant en Base");
 			}
-
-			System.out.println("ingredient: " + recette.getRecettesIngredients().get(i).getIngredient());
-
-			if (recette.getRecettesIngredients().get(i).getId().getIngredientId() != (recetteRecherche.get()
-					.getRecettesIngredients().get(i).getId().getIngredientId())) {
-				// recetteIngredientRepository.saveAndFlush(recette.getRecettesIngredients().get(i));
-				recetteIngredientRepository.delete(recetteRecherche.get().getRecettesIngredients().get(i));
-				if (recette.getRecettesIngredients().get(i).getId().getIngredientId() == 0) {
-					ingredientRepository.save(recette.getRecettesIngredients().get(i).getIngredient());
-					log.info("Service: Ingredient ajouté car inexistant en Base");
-				}
-			}
+			recetteIngredientRepository.save(recetteIngredient);
 		}
+
 		Recette recetteModifie = recetteRepository.save(recette);
 
 		log.debug("Service: Recette modifiée avec ID: " + recetteModifie.getId());
@@ -298,4 +295,5 @@ public class RecetteService implements IRecetteService {
 
 		}
 	}
+
 }
